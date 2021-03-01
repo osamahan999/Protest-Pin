@@ -10,6 +10,7 @@ const hash = require('../src/hashFunctionalities')
  * Takes in a username and a password, generates a salt, hashes the password
  * with the generated salt, and inserts the Username, Password, and Salt into the datbase. 
  * 
+ * Note: Database checks for uniqueness of username. Returns error if not unique
  * @param username 
  * @param password 
  * 
