@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 //Initializes the connection pool
-var pool = require('./config/mysqlConnector');
+var pool = require('./connectionPool');
 
 
 //Routes requests to these files

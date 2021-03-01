@@ -6,7 +6,7 @@ const hash = require('../src/hashFunctionalities');
 
 describe("Testing Registration Functionalities", () => {
 
-    const username: string = "testUser";
+    const username: string = "test922993573653656235454";
     const salt: string = hash.getSalt();
     const password: string = hash.hash("test", salt)
 
