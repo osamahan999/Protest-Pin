@@ -13,7 +13,6 @@
     "mysql": "^2.18.1",
     "nodemon": "^2.0.7",
     "ts-mocha": "^8.0.0",
-    "ts-node": "^7.0.1",
     "typescript": "^4.2.2",
     "xss": "^1.0.8"
   },
@@ -35,5 +34,8 @@
     "url": "https://github.com/osamahan999/Protest-Pin/issues"
   },
   "homepage": "https://github.com/osamahan999/Protest-Pin#readme",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "ts-node": "^7.0.1"
+  }
 }
