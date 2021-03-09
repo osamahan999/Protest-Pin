@@ -1,3 +1,5 @@
+![Test](https://github.com/github/docs/actions/workflows/main.yml/badge.svg)
+
 git clone this repo initially before anything
 
 # To setup Frontend
