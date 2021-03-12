@@ -3,9 +3,9 @@
 git clone this repo initially before anything
 
 # To setup Frontend
-cd into frontend
-npm install
-Now, npm start should wor
+cd into frontend \n
+npm install \n
+Now, npm start should working \n
 
 # To setup Backend
 cd into Backend
