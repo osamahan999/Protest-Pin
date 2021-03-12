@@ -3,13 +3,13 @@
 git clone this repo initially before anything
 
 # To setup Frontend
-cd into frontend \n
-npm install \n
-Now, npm start should working \n
+cd into frontend <br/>
+npm install <br/>
+Now, npm start should working <br/> 
 
 # To setup Backend
-cd into Backend
-npm install
-set up .env file
-npm run test //checks if things are properly working. If so, proceed
-npm start
+cd into Backend<br/>
+npm install<br/>
+set up .env file<br/>
+npm run test //checks if things are properly working. If so, proceed<br/>
+npm start<br/>
