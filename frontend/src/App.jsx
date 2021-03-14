@@ -1,10 +1,12 @@
 import React,{useState} from 'react'
+import { HomePage } from './components/HomePage'
+import './App.css'
 
 
 function App() {
   return (
-   <div>
-     Main Page
+   <div class="App">
+     <HomePage />
    </div> 
   )
 }
