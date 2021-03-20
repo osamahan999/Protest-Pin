@@ -18,10 +18,12 @@ var pool = require('./connectionPool');
 //Routes requests to these files
 const registrationRouter = require("./routes/registrationRouter");
 const loginRouter = require("./routes/loginRouter");
+const eventRouter = require("./routes/eventRouter");
 
 //connects router to url 
 app.use("/register", registrationRouter)
 app.use("/login", loginRouter)
+app.use("/event", eventRouter)
 
 
 app.get('/', (req: Request, res: Response) => {
