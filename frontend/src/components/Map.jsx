@@ -1,5 +1,5 @@
 import React,{useState, useCallback,useRef} from 'react'
-import { GoogleMap, LoadScript,Marker,InfoWindow } from '@react-google-maps/api';
+import { GoogleMap, LoadScript,Marker,InfoWindow ,useLoadScript} from '@react-google-maps/api';
 import {formatRelative} from 'date-fns' //to format the time 
 import usePlacesAutocomplete, {getGeocode, getLatLng} from 'use-places-autocomplete'
 import {
@@ -31,9 +31,14 @@ const options ={
   disableDefaultUI: true,
   zoomControl : true,
 }
+const libraries = ["places"];
 
-function Map() {
+export default function Map() {
   const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: apiKey,
+    libraries,
+  });
   const [markers, setMarkers] = useState([])
   const [selected,setSelected] = useState(null) //the marker was clicked by user
   const [selectedCenter, setSelectedCenter] = useState(null);
@@ -51,11 +56,11 @@ function Map() {
     }])
   }, [])
 
+  if (loadError) return "Error";
+  if (!isLoaded) return "Loading...";
+
   return (
     <div>
-      <LoadScript
-        googleMapsApiKey = {apiKey}
-      >
       <h1>
         Protest Pin{" "}
       </h1>
@@ -101,7 +106,7 @@ function Map() {
          </InfoWindow>): null}
 
         </GoogleMap>
-      </LoadScript>
+      
     </div>
   )
 
@@ -122,29 +127,47 @@ function Search({ panTo }) {
     },
   });
 
-  return(
-    <div className = "search">
-      <Combobox
-        onSelect={(address) => {
-          console.log(address)
-        }}
-      >
+  // https://developers.google.com/maps/documentation/javascript/reference/places-autocomplete-service#AutocompletionRequest
+
+  const handleInput = (e) => {
+    setValue(e.target.value);
+  };
+
+  const handleSelect = async (address) => {
+    setValue(address, false);
+    clearSuggestions();
+
+    try {
+      const results = await getGeocode({ address });
+      const { lat, lng } = await getLatLng(results[0]);
+      panTo({ lat, lng });
+    } catch (error) {
+      console.log("😱 Error: ", error);
+    }
+  };
+
+  return (
+    <div className="search">
+      <Combobox onSelect={(address) => {
+        console.log(address)
+      }}>
         <ComboboxInput
-          value = {value}
-          onChange = { (e) => {
-            setValue(e.target.value)
-          }}
-          //disabled = {!ready}
-          placeholder = "Enter an address"
+          value={value}
+          onChange={handleInput}
+          disabled={!ready}
+          placeholder="Search your location"
         />
+
+        <ComboboxPopover>
+          <ComboboxList>
+            {status === "OK"?
+              data.map(({ id, description }) => (
+                <ComboboxOption key={id} value={description} />
+              )):null}
+          </ComboboxList>
+        </ComboboxPopover>
 
       </Combobox>
     </div>
-  )
-  
-  
+  );
 }
-
-
-
-export default React.memo(Map)
