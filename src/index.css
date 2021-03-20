@@ -10,10 +10,10 @@ h1 {
 
 .search {
   position: absolute;
-  top: 1rem;
+  top: 3rem;
   left: 50%;
   transform: translateX(-50%);
-  width: 100%;
+  width: 200%;
   max-width: 400px;
   z-index: 10;
 }
