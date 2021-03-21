@@ -56,6 +56,11 @@ export default function Map() {
     }])
   }, [])
 
+  const panTo = useCallback(({lat, lng}) =>{
+    mapRef.current.panTo({lat, lng})
+    mapRef.current.setZoom(12)
+  },[])
+
   if (loadError) return "Error";
   if (!isLoaded) return "Loading...";
 
@@ -65,7 +70,8 @@ export default function Map() {
         Protest Pin{" "}
       </h1>
 
-      <Search/>
+      <Search panTo = {panTo}/>
+      <Locate panTo = {panTo}/>
 
         <GoogleMap
           mapContainerStyle={containerStyle}
@@ -113,6 +119,29 @@ export default function Map() {
 
 }
 
+function Locate({panTo}){
+  return (
+    <button
+      className="locate"
+      onClick={() => {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            //console.log(position)
+            panTo({
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            });
+          },
+          () => null
+        );
+      }}
+    >
+      <img src="/compass.svg" alt="compass" />
+    </button>
+  )
+}
+
+
 function Search({ panTo }) {
   const {
     ready,
@@ -148,8 +177,18 @@ function Search({ panTo }) {
 
   return (
     <div className="search">
-      <Combobox onSelect={(address) => {
-        console.log(address)
+      <Combobox 
+      onSelect={async (address) => {
+        setValue(address, false)
+        clearSuggestions()
+        try {
+          const results = await getGeocode({address})
+          const {lat, lng} = await getLatLng(results[0])
+          panTo({lat, lng});
+        } catch (error) {
+          console.log(error)
+          
+        }
       }}>
         <ComboboxInput
           value={value}
