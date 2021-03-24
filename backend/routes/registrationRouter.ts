@@ -14,8 +14,9 @@ const registerFunctionalities = require('../src/registerFunctionalities')
 router.route('/userRegister').post(async (req: Request, res: Response) => {
     const username: string = req.body.username;
     const password: string = req.body.password;
+    const birthday: string = req.body.birthday; 
 
-    let response = await registerFunctionalities.registerUser(username, password);
+    let response = await registerFunctionalities.registerUser(username, password, birthday);
     res.status(response.http_id).json(response.message);
 })
 
