@@ -1,0 +1,93 @@
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import TextField from '@material-ui/core/TextField';
+import DatePicker from "react-datepicker";
+import {Container} from 'react-bootstrap'
+
+import "react-datepicker/dist/react-datepicker.css";
+import "./EventCreateForm.css";
+
+
+export default function EventCreateForm({location}){
+    const inputRef = React.createRef(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+    const {handleSubmit} = useForm();
+    const [selectedDate, setSelectedDate] = useState(new Date()); 
+    const [title,setTitle] = useState("");
+    const [description, setDescription] = useState("");
+
+
+    const setVisitDate =(date) =>{
+        setSelectedDate(date);
+        console.log(selectedDate);
+        console.log(date)
+    }
+
+    const onSubmit = async() => {
+        
+        
+    };
+
+
+    return(
+        <div className="form-div">
+    <form onSubmit={handleSubmit(onSubmit)} className="entry-form" >
+      {error ? <h3 className="error">{error}</h3> : null}
+     <Container>
+      <TextField
+          required
+          className="textfield"
+          name="title"
+          id="outlined-required"
+          label="Required Title"
+          placeholder="Title"
+          //variant="outlined"
+          onChange ={e=>setTitle(e.target.value)}
+          ref = {inputRef}
+        />
+     </Container>
+      
+      <Container>
+      <TextField
+          name="description"
+          label="Description"
+          placeholder="This place....."
+          className="textfield"
+          multiline
+          onChange ={e=>setDescription(e.target.value)}
+         
+          ref={inputRef}
+        />
+        </Container>
+
+
+      <Container className ="date-picker-container">
+      <label>Visit Date*</label>
+      <DatePicker
+        className="date-picker"
+        selected={selectedDate}
+        onChange={date=>setVisitDate(date)}
+        dateFormat="MM/dd/yyyy"
+        required
+      />
+      </Container>
+
+      
+
+     
+     <Container className="button-container">
+      <button 
+      className="button"
+      disabled={loading}
+      >
+        {loading ? "Loading..." : "Create Entry"}
+      </button>
+      </Container>
+
+    </form>
+    </div>
+    
+        
+    )
+}

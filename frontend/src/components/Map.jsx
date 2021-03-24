@@ -10,6 +10,7 @@ import mapStyles from '../mapStyles' //map style
 
 import SearchBar from './SearchBar'
 import LocateCompass from './LocateCompass'
+import EventCreateForm from './EventCreateForm'
 
 
 
@@ -36,21 +37,28 @@ export default function Map() {
     googleMapsApiKey: apiKey,
     libraries,
   });
+  const [newMarkerLocation, setNewMarkerLocation] = useState(null);
   const [markers, setMarkers] = useState([])
   const [selected,setSelected] = useState(null) //the marker was clicked by user
   const [selectedCenter, setSelectedCenter] = useState(null);
+
   const mapRef = useRef()  //use ref to avoid react to rerender
+  
 
   const onMapLoad = useCallback( (map) => {
     mapRef.current = map;
   }, [] )
 
   const onMapClick =  useCallback( (event)=>{
-    setMarkers(current => [...current,{
+
+    const newLocation = {
       lat: event.latLng.lat(),
       lng: event.latLng.lng(),
       time: new Date(),
-    }])
+    }
+    setMarkers(current => [...current,newLocation])
+    setNewMarkerLocation(newLocation);
+    
   }, [])
 
   const panTo = useCallback(({lat, lng}) =>{
@@ -79,6 +87,7 @@ export default function Map() {
           onLoad = {onMapLoad}
         >
 
+        
          {markers.map(marker => 
          <Marker key={marker.time.toISOString()} 
          position={{lat:marker.lat, lng: marker.lng}}
@@ -94,6 +103,19 @@ export default function Map() {
          } }
          >
          </Marker>)}
+
+         {newMarkerLocation ? (<InfoWindow
+         position = {{lat:newMarkerLocation.lat, lng:newMarkerLocation.lng}}
+         onCloseClick = {()=>{  //after the user click the close btn, set the current selected location as null
+           setNewMarkerLocation(null)
+         }}
+         >
+           <div>
+             <EventCreateForm/>
+           </div>
+         </InfoWindow>): null}
+
+
 
          {selected ? (<InfoWindow
          position = {{lat:selected.lat, lng:selected.lng}}
