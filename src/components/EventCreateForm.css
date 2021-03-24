@@ -1,0 +1,52 @@
+.textfield {
+  width: 28vw;
+}
+
+.imageUploader {
+  width: 28vw;
+}
+
+.button-container {
+  width: 30vw;
+}
+
+.date-picker-container {
+  width: 30vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button {
+  background: linear-gradient(45deg, #fe6b8b, #ff8e53);
+  color: white;
+  border: none;
+  padding: 0.3rem;
+}
+
+@media all and (max-width: 400px) {
+  .textfield {
+    width: 70vw;
+  }
+  .imageUploader {
+    width: 70vw;
+  }
+  .entry-form {
+    width: 70vw;
+    max-height: auto;
+  }
+  .button-container {
+    width: 80vw;
+  }
+
+  .date-picker-container {
+    width: 80vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .button {
+    width: 80vw;
+  }
+}
