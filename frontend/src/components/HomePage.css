@@ -1,7 +1,7 @@
 
 
 .overlay {
-    background-color: rgba(0, 0, 0, .8);
+    background-color: rgba(0, 0, 0, .3);
     width: 100%;
     height: 100%;
     top: 0;
@@ -72,4 +72,69 @@
       font-size: 12px;
       padding: 10px;
   }
+
+  .field {
+    display: inline;
+  }
+
+.field input[type=text], input[type=password]  {
+  width: 80%;
+  float: left;
+  margin-left: 20px;
+
+}
+
+.react-datepicker__input-container {
+  width: 100%;
+}
+
+.react-datepicker-wrapper {
+  width: 100%;
+  float: left;
+}
+
+
+
+.info {
+  position: absolute;
+  float: left;
+  right: 20px;
+}
+
+
+
+#user-info:hover #username-reqs {
+  display: block;
+}
+
+.reqs {
+  display: none;
+  margin-left: 20px;
+  z-index: 15;
+  position: fixed;
+  width: 60%;
+  background-color: #fff;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  padding: 10px;
+}
+#pw-info:hover #pw-reqs {
+  display: block;
+}
+
+p {
+    color: #c6c6c6;
+}
+
+input {
+  border: 1px solid black;
+  border-radius: 3px;
+}
+
+
+
+#bday-info:hover #bday-reqs {
+  display: block;
+}
+
+
 
