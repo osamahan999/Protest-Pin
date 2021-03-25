@@ -61,8 +61,55 @@ const loginUser = (username: string, password: string) => {
     })
 }
 
+const loginWithToken = (token: string, username: string) => {
+    const cleanUsername: string = xss(username);
+    const cleanToken = xss(token);
+
+    const query: string = `SELECT * FROM ${process.env.DATABASE_SCHEMA}.user 
+                                WHERE user_id=(
+                                    SELECT user_id FROM ${process.env.DATABASE_SCHEMA}.login_token 
+                                        WHERE login_token = ? AND user_id=(
+                                            SELECT user_id FROM ${process.env.DATABASE_SCHEMA}.user 
+                                                WHERE username = ?))`
+    const inputs: Array<string> = [cleanToken, cleanUsername]
+
+    return (new Promise((resolve, reject) => {
+        connectionPool.query(
+            query,
+            inputs,
+            (err, result, fields) => {
+                if (err) reject({ http_id: 400, message: "Failed to find login token" })
+                else {
+                    if (result.length != 0)
+                        reject({ http_id: 400, message: "Token not found" })
+                    else
+                        resolve({ http_id: 200, message: "Token found successfully", user: result[0] })
+                }
+            }
+        )
+    }))
+}
+
+const createUserToken = (username: string) => {
+    const cleanUsername: string = xss(username);
+    const token = hash.newLoginToken();
+
+    const query: string = `INSERT INTO ${process.env.DATABASE_SCHEMA}.login_token (user_id, login_token) VALUES 
+                            ((SELECT user_id from ${process.env.DATABASE_SCHEMA}.user WHERE username = ?), ?)`
+    const inputs: Array<string> = [cleanUsername, token]
+
+    return (new Promise((resolve, reject) => {
+        connectionPool.query(query, inputs, (err, result, fields) => {
+            if (err)
+                reject({ http_id: 400, message: "Failed to connect to db" })
+            else
+                resolve({ http_id: 200, message: "Successfully created token", username: cleanUsername, token: token })
+        })
+    }))
+}
 
 
 module.exports = {
-    loginUser
+    loginUser,
+    loginWithToken
 }
