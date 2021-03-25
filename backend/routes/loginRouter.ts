@@ -12,10 +12,10 @@ const loginFunctionalities = require('../src/loginFunctionalities')
  * @param {string} password The password
  */
 router.route('/loginUser').get(async (req: Request, res: Response) => {
-    const username: string = req.body.username;
-    const password: string = req.body.password;
+    const username = req.query.username;
+    const password = req.query.password;
 
-    let response = await loginFunctionalities.loginUser(username);
+    let response = await loginFunctionalities.loginUser(username, password);
     res.status(response.http_id).json(response.message);
 })
 
