@@ -130,8 +130,10 @@ export class HomePage extends React.Component {
 
     validateRegistration = event => {
         event.preventDefault();
+
         
         var month, day, birthdayString;
+        var registrationSuccess;
         // Check fields are not empty 
         if(!this.state.username) document.getElementById("username-field").style.border = "1px solid red";
         else document.getElementById("username-field").style.border = "1px solid black";
@@ -152,43 +154,47 @@ export class HomePage extends React.Component {
             birthdayString = this.state.birthday.getFullYear().toString().concat("-").concat(month).concat("-").concat(day);
     
     
-            var request = require('request');
+            var axios = require('axios');
+            var data = {"username":"","password":"","birthday":""};
+            data["username"] = this.state.username; 
+            data["password"] = this.state.password;
+            data["birthday"] = birthdayString; 
 
-            var requestBody = {"username": this.state.username.toString(), "password": this.state.password.toString(), "birthday": birthdayString}
+            data = JSON.stringify(data);
 
-            var options = {
-            'method': 'POST',
-            'url': 'http://localhost:3306/register/userRegister',
-            'headers': {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(requestBody)
 
-            };
-                request(options, function (error, response) {
-                if (response.statusCode === 400) {
-                    // TODO: username taken alert
-                    console.log("username taken");
-    
-                }
-                else if (response.statusCode === 200) {
-                    console.log("success");
-                    // TODO: success alert
-                    // TODO: redirect to page
-                    
-                }
-                else {
-                    console.log("Error");
-                    // TODO: error alert
-                }
-                
+            var config = {
+            method: 'post',
+            url: 'http://localhost:3306/register/userRegister',
+            headers: { 'Content-Type': 'application/json'},
+            data : data };
+
+
+            axios(config)
+            .then((response) => {
+                console.log(JSON.stringify(response.data));
+                this.handleRegistration();
+
+
+            })
+            .catch((error) => {
+                console.log(error);
             });
+
 
         }
 
+        if (registrationSuccess) {
+            
+        }
     
 
 
+
+    };
+
+    handleRegistrationSuccess = () => {
+        console.log("nice")
 
     };
 
