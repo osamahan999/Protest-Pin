@@ -1,13 +1,20 @@
 import React,{useState} from 'react'
-import { HomePage } from './components/HomePage'
+import { ModalContainer } from './components/ModalContainer'
+
 import './App.css'
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+
 
 
 function App() {
   return (
+    <>
    <div class="App">
-     <HomePage />
+     <ModalContainer />
    </div> 
+
+   </>
+   
   )
 }
 

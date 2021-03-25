@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
-import { Portal } from 'react-overlays';
-import './HomePage.css';
+import './ModalContainer.css';
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import Map from './Map'
+import { Portal } from 'react-overlays';
 
-export class HomePage extends React.Component {
+
+export class SignUpModal extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
-            welcome: true,
-            login: false,
-            signup: false, 
             username: "",
             password: "",
             password2: "",
@@ -21,18 +19,13 @@ export class HomePage extends React.Component {
 
     }
 
+
     date = new Date();
     ageLimit = new Date(this.date.getFullYear() - 18, this.date.getMonth(), this.date.getDate());
 
 
-    // Toggle between modals
-    openLogin = () => { this.setState({ welcome: false, login: true, signup: false}) };
-    openSignUp = () => { this.setState({ welcome: false, login: false, signup: true}) };
-    closeModals = () => {this.setState({ welcome: false, login: false, signup: false})};
-
-
-    // Handle input changes
-    handleChange = event => {
+      // Handle input changes
+      handleChange = event => {
         const isCheckbox = event.target.type === "checkbox";
         this.setState({message: event.target.value}, this.handleRegistration);
 
@@ -54,7 +47,7 @@ export class HomePage extends React.Component {
         // Username requirements
         if (this.state.username.length < 5 || this.state.username.length > 30) usernameLength = false; 
         else usernameLength = true; 
-        if (!/^[A-Za-z0-9 ._-]+$/.test(this.state.username.toString())) usernameChar = false
+        if (!/^[A-Za-z0-9 ._-]+$/.test(this.state.username.toString()) || /\s/.test(this.state.username.toString())) usernameChar = false
         else usernameChar = true;
         if (!/[.]{2,}/.test(this.state.username.toString()) && !this.state.username.toString().endsWith(".")) usernamePeriod = true; 
         else usernamePeriod = false;
@@ -128,7 +121,7 @@ export class HomePage extends React.Component {
 
     }
 
-    validateRegistration = event => {
+    validate = event => {
         event.preventDefault();
 
         
@@ -169,32 +162,23 @@ export class HomePage extends React.Component {
             headers: { 'Content-Type': 'application/json'},
             data : data };
 
-
+            // TODO: route to main page? 
+            //       success pop up
             axios(config)
             .then((response) => {
                 console.log(JSON.stringify(response.data));
                 this.handleRegistration();
 
-
             })
             .catch((error) => {
+                // TODO: error popup
                 console.log(error);
             });
 
 
         }
 
-        if (registrationSuccess) {
-            
-        }
-    
 
-
-
-    };
-
-    handleRegistrationSuccess = () => {
-        console.log("nice")
 
     };
 
@@ -205,56 +189,15 @@ export class HomePage extends React.Component {
         return <Portal container={el}>{children}</Portal>;
     };
 
-
     render() {
         return (
             <>
-                <Map />
 
-                {this.state.welcome ? (
-                    <div className='overlay'>
-                    <div className='modal'>
-                    <img src="pexels-markus-spiske-protest.jpg" ></img>
-                    <header id="modal-header">Welcome to Protest Pin</header>
-                    <p id="desc">To get started, login or sign up.</p>
-                    <button onClick={this.openLogin}>Login</button>
-                    <button onClick={this.openSignUp}>Sign Up</button>
-                    </div>
-                    
-                </div>
-
-                
-            
-                ) : null}
-
-                {this.state.login? (
-                    <div className="overlay">
-                    <div className="modal" >
-                        <header id="modal-header">Member Login </header>
-                        <p id="desc">Login to access your account!</p>
-                        <form>
-                        <div className="form" id="form">
-                        <input type="text" name="username" placeholder="Username"/>
-                        <br /><br /><input type="text" name="password" placeholder="Password" />
-                        </div>
-
-                        <br /><button >Log in</button>
-                        </form>
-
-                        <p id="desc">Don't have an account? <br /><button id="nav" onClick={this.openSignUp}>Create one</button></p>
-    
-
-                    </div>
-                    </div>
-
-                ) : null}
-
-                {this.state.signup? (
-                    <div className="overlay">
+            <div className="overlay">
                     <div className="modal" id="modal">
                     <body className="Reg-body">
                                <header id="modal-header">  Register your account</header>
-                               <form onSubmit={this.validateRegistration}>
+                               <form onSubmit={this.validate}>
             
                             <div className="form" id="form">
                             <div className="field">
@@ -326,13 +269,6 @@ export class HomePage extends React.Component {
                                     popperContainer={this.CalendarContainer}
                                     maxDate={this.ageLimit}
                                 />
-
-                                    {/* <div className="info" id="bday-info">ⓘ
-                                    <div className="reqs" id="bday-reqs">
-            
-                                        <p id="bday-req">Birthday is required<br /> Must 18 years or older</p>
-                                    </div>
-                                </div> */}
                                 </div>
                            </div>
                            
@@ -344,17 +280,9 @@ export class HomePage extends React.Component {
                            </body>
                     </div>
                     </div>
-                ): null}
+            </>
 
-                </>
-
-        );
-
+        )
     }
 
-
-
-
-
 }
-
