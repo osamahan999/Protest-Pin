@@ -17,10 +17,11 @@ const hash = require('../src/hashFunctionalities')
  * @return {http_id = 400 | 200, 
  * message = "Failed to create a user" | "Successfully created a user"} 
  */
-const loginUser = (username: string) => {
+const loginUser = (username: string, password: string) => {
     const cleanUsername: string = xss(username);
 
     const salt: string = hash.getSalt();
+
     // const cleanPassword: string = hash.hash(xss(password), salt);
 
     //The question marks get replaced with the inputs in the inputs array.
@@ -39,10 +40,17 @@ const loginUser = (username: string) => {
             (err, result, fields) => {
                 if (err) reject({ http_id: 400, message: "Failed to get user" })
                 else {
-                    resolve({ http_id: 200, message: result })
+                    let hashedPassword = result[0].password;
+                    let salt = result[0].salt;
+                    let inputPassword: string = hash.hash(xss(password), salt);
+
+                    if (hashedPassword == inputPassword) 
+                        resolve({ http_id: 200, message: "Log in successful" });
+                    else 
+                        reject({ http_id: 400, message: "Username or password is incorrect"});
+
                 }
                 
-
 
 
             })
