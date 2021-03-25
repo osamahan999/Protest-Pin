@@ -73,6 +73,12 @@
       padding: 10px;
   }
 
+  #username-field {
+    width: 80%;
+    float: left;
+    margin-left: 20px;
+  
+  }
   .field {
     display: inline;
   }

@@ -40,14 +40,19 @@ const loginUser = (username: string, password: string) => {
             (err, result, fields) => {
                 if (err) reject({ http_id: 400, message: "Failed to get user" })
                 else {
-                    let hashedPassword = result[0].password;
-                    let salt = result[0].salt;
-                    let inputPassword: string = hash.hash(xss(password), salt);
+                    if (result.length != 0) {
+                        let hashedPassword = result[0].password;
+                        let salt = result[0].salt;
+                        let inputPassword: string = hash.hash(xss(password), salt);
 
-                    if (hashedPassword == inputPassword) 
-                        resolve({ http_id: 200, message: "Log in successful" });
-                    else 
-                        reject({ http_id: 400, message: "Username or password is incorrect"});
+                        
+                        if (hashedPassword == inputPassword) 
+                            resolve({ http_id: 200, message: "Log in successful" });
+                        else 
+                            reject({ http_id: 400, message: "Username or password is incorrect"});
+                    }
+                    else reject({http_id: 400, message: "Username does not exist"})
+
 
                 }
                 
