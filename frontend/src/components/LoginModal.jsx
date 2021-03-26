@@ -4,6 +4,47 @@ import { HomePage } from './HomePage.jsx'
 import { Redirect } from "react-router-dom";
 
 
+const isLoggedIn = () => {
+    let token = getToken();
+
+    if (token != null) {
+
+        axios.post("localhost:3306/login/loginWithToken", {
+            token: token
+
+        }).then((response) => {
+
+            //do the login shit here
+
+        }).catch((err) => {
+            alert(err);
+        })
+
+    }
+}
+
+/**
+ * Returns the token from the cookies
+ * or fail if no cookie with token
+ */
+const getToken = () => {
+
+    let cookies = document.cookie.split(';');
+    let ret = '';
+
+    if (cookies[0] != "") {
+        cookies.forEach((keyPair) => {
+            let subArray = keyPair.split('=');
+            let key = subArray[0].trim();
+            let value = subArray[1].trim();
+
+            if (key == "token") ret = value;
+        })
+    } else return 'fail';
+
+    return ret;
+}
+
 
 export class LoginModal extends React.Component {
     constructor(props) {
@@ -46,6 +87,15 @@ export class LoginModal extends React.Component {
         axios(config)
         .then(function (response) {
             //TODO: route to main page
+
+            // Sets the cookie to the token
+            if (response.data.token != null) {
+                let now = new Date();
+                now.setTime(now.getTime() + (1000 * 3600000)); //lasts 3.6 million seconds
+
+                let cookie = "token = " + response.data.token + "; SameSite=None; Secure; expires=" + now.toUTCString();
+                document.cookie = cookie;
+            }
             console.log(JSON.stringify(response.data));
         })
         .catch(function (error) {

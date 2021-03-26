@@ -20,10 +20,9 @@ router.route('/loginUser').get(async (req: Request, res: Response) => {
 })
 
 router.route('/loginWithToken').get(async (req: Request, res: Response) => {
-    const username = req.query.username;
     const token = req.query.token;
 
-    let response = await loginFunctionalities.loginWithToken(token, username);
+    let response = await loginFunctionalities.loginWithToken(token);
     res.status(response.http_id).json(response)
 })
 

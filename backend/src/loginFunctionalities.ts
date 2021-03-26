@@ -71,17 +71,14 @@ const loginUser = (username: string, password: string) => {
     })
 }
 
-const loginWithToken = (token: string, username: string) => {
-    const cleanUsername: string = xss(username);
+const loginWithToken = (token: string) => {
     const cleanToken = xss(token);
 
     const query: string = `SELECT * FROM ${process.env.DATABASE_SCHEMA}.user 
                                 WHERE user_id=(
                                     SELECT user_id FROM ${process.env.DATABASE_SCHEMA}.login_token 
-                                        WHERE login_token = ? AND user_id=(
-                                            SELECT user_id FROM ${process.env.DATABASE_SCHEMA}.user 
-                                                WHERE username = ?))`
-    const inputs: Array<string> = [cleanToken, cleanUsername]
+                                        WHERE login_token = ?)`
+    const inputs: Array<string> = [cleanToken]
 
     return (new Promise((resolve, reject) => {
         connectionPool.query(
