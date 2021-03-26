@@ -1,6 +1,7 @@
 const xss = require('xss')
 
 import { Pool } from 'mysql';
+import { JsonObjectExpression } from 'typescript';
 const connectionPool: Pool = require('../connectionPool.ts');
 
 const hash = require('../src/hashFunctionalities')
@@ -20,10 +21,6 @@ const hash = require('../src/hashFunctionalities')
 const loginUser = (username: string, password: string) => {
     const cleanUsername: string = xss(username);
 
-    const salt: string = hash.getSalt();
-
-    // const cleanPassword: string = hash.hash(xss(password), salt);
-
     //The question marks get replaced with the inputs in the inputs array.
     //This is done to prevent sql injection attacks
     const query: string = `SELECT * FROM ${process.env.DATABASE_SCHEMA}.user WHERE username=?`;
@@ -37,7 +34,7 @@ const loginUser = (username: string, password: string) => {
         connectionPool.query(
             query,
             cleanUsername,
-            (err, result, fields) => {
+            async (err, result, fields) => {
                 if (err) reject({ http_id: 400, message: "Failed to get user" })
                 else {
                     if (result.length != 0) {
@@ -46,8 +43,16 @@ const loginUser = (username: string, password: string) => {
                         let inputPassword: string = hash.hash(xss(password), salt);
 
                         
-                        if (hashedPassword == inputPassword) 
-                            resolve({ http_id: 200, message: "Log in successful" });
+                        if (hashedPassword == inputPassword) {
+
+                            const tokenResponse: any = await createUserToken(cleanUsername)
+                            if (tokenResponse.http_id == 200) {
+                                resolve({ http_id: 200, message: "Log in successful and token generated", username: tokenResponse.username, token: tokenResponse.token })
+                            } else
+                                resolve({ http_id: 200, message: "Log in successful without token" });
+
+
+                        }
                         else 
                             reject({ http_id: 400, message: "Username or password is incorrect"});
                     }
@@ -85,7 +90,7 @@ const loginWithToken = (token: string, username: string) => {
             (err, result, fields) => {
                 if (err) reject({ http_id: 400, message: "Failed to find login token" })
                 else {
-                    if (result.length != 0)
+                    if (result.length == 0)
                         reject({ http_id: 400, message: "Token not found" })
                     else
                         resolve({ http_id: 200, message: "Token found successfully", user: result[0] })

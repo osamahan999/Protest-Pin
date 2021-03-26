@@ -16,7 +16,15 @@ router.route('/loginUser').get(async (req: Request, res: Response) => {
     const password = req.query.password;
 
     let response = await loginFunctionalities.loginUser(username, password);
-    res.status(response.http_id).json(response.message);
+    res.status(response.http_id).json(response);
+})
+
+router.route('/loginWithToken').get(async (req: Request, res: Response) => {
+    const username = req.query.username;
+    const token = req.query.token;
+
+    let response = await loginFunctionalities.loginWithToken(token, username);
+    res.status(response.http_id).json(response)
 })
 
 
