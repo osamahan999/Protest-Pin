@@ -8,7 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./EventCreateForm.css";
 
 
-export default function EventCreateForm({location}){
+export default function EventCreateForm({lat,lng}){
     const inputRef = React.createRef(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
@@ -24,10 +24,29 @@ export default function EventCreateForm({location}){
         console.log(date)
     }
 
-    const onSubmit = async() => {
-        
-        
-    };
+    
+  const onSubmit = async() => {
+    try {
+      setLoading(true);
+      let event={};
+     
+     
+      event.latitude = lat;
+      event.longitude = lng;
+      event.event_name = title;
+      event.time_of_event = selectedDate;
+      event.event_description = description;
+
+      console.log(event)
+      //await createLogEntry(data);
+      //alert("Entry Created")
+      //onClose();
+    } catch (error) {
+      console.error(error);
+      setError(error.message);
+      setLoading(false);
+    }
+  };
 
 
     return(
@@ -63,7 +82,7 @@ export default function EventCreateForm({location}){
 
 
       <Container className ="date-picker-container">
-      <label>Visit Date*</label>
+      <label>Time of Event*</label>
       <DatePicker
         className="date-picker"
         selected={selectedDate}
@@ -73,9 +92,7 @@ export default function EventCreateForm({location}){
       />
       </Container>
 
-      
-
-     
+           
      <Container className="button-container">
       <button 
       className="button"

@@ -1,8 +1,5 @@
 .textfield {
-  width: 28vw;
-}
-
-.imageUploader {
+  margin-top: 3vh;
   width: 28vw;
 }
 
@@ -11,6 +8,7 @@
 }
 
 .date-picker-container {
+  margin-top: 3vh;
   width: 30vw;
   display: flex;
   justify-content: center;
@@ -18,6 +16,7 @@
 }
 
 .button {
+  margin-top: 3vh;
   background: linear-gradient(45deg, #fe6b8b, #ff8e53);
   color: white;
   border: none;

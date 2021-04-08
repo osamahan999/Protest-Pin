@@ -6,6 +6,7 @@ import {formatRelative} from 'date-fns' //to format the time
 
 
 import "@reach/combobox/styles.css"; 
+import "./Map.css";
 import mapStyles from '../mapStyles' //map style
 
 import SearchBar from './SearchBar'
@@ -71,10 +72,6 @@ export default function Map() {
 
   return (
     <div>
-      <h1>
-        Protest Pin{" "}
-      </h1>
-
       <SearchBar panTo = {panTo}/>
       <LocateCompass panTo = {panTo}/>
 
@@ -110,8 +107,8 @@ export default function Map() {
            setNewMarkerLocation(null)
          }}
          >
-           <div>
-             <EventCreateForm/>
+           <div className="EventCreateForm">
+             <EventCreateForm lat={newMarkerLocation.lat} lng ={newMarkerLocation.lng} />
            </div>
          </InfoWindow>): null}
 
