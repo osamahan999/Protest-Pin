@@ -1,15 +1,20 @@
 import React,{useState} from 'react'
-import { HomePage } from './components/HomePage'
-import Map from './components/Map'
-import EventCreateForm from './components/EventCreateForm'
+import { ModalContainer } from './components/ModalContainer'
+
 import './App.css'
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+
 
 
 function App() {
   return (
-   <div className="App">
-   
+    <>
+   <div class="App">
+     <ModalContainer />
    </div> 
+
+   </>
+   
   )
 }
 

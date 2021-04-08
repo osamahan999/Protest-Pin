@@ -17,7 +17,7 @@ const hash = require('../src/hashFunctionalities')
  * @return {http_id = 400 | 200, 
  * message = "Failed to create a user" | "Successfully created a user"} 
  */
-const registerUser = (username: string, password: string) => {
+const registerUser = (username: string, password: string, birthday: string) => {
     const cleanUsername: string = xss(username);
 
     const salt: string = hash.getSalt();
@@ -25,9 +25,10 @@ const registerUser = (username: string, password: string) => {
 
     //The question marks get replaced with the inputs in the inputs array.
     //This is done to prevent sql injection attacks
-    const query: string = `INSERT INTO ${process.env.DATABASE_SCHEMA}.user (username, password, salt) VALUES (?, ?, ?)`;
+    const query: string = `INSERT INTO ${process.env.DATABASE_SCHEMA}.user (username, password, salt, birthday) VALUES (?, ?, ?, ?)`;
     const inputs: Array<string> = [cleanUsername, cleanPassword, salt];
 
+    var birthdate = new Date(birthday);
     /**
      * We return a promise due to synchronicity issues
      */
@@ -35,7 +36,7 @@ const registerUser = (username: string, password: string) => {
         //connectionPool.query automatically gets a connection from our pool, queries, and then releases it.
         connectionPool.query(
             query,
-            inputs,
+            [cleanUsername, cleanPassword, salt, birthdate],
             (err, result, fields) => {
                 if (err) reject({ http_id: 400, message: "Failed to create user" })
                 else {

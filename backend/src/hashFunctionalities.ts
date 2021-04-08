@@ -27,7 +27,15 @@ const hash = (password: string, salt: string) => {
 
 }
 
+
+const newLoginToken = () => {
+    let token: string = crypto.randomBytes(64).toString('hex'); //I conjure a 64 byte token from random bytes
+    return token;
+}
+
+
 module.exports = {
     getSalt,
-    hash
+    hash,
+    newLoginToken
 }
