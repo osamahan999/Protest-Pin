@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import './ModalContainer.css';
-import { HomePage } from './HomePage.jsx'
+//import { HomePage } from './HomePage.jsx'
 import { Redirect } from "react-router-dom";
+import axios from 'axios'
 
 
 const isLoggedIn = () => {
