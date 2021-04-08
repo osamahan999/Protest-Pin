@@ -7,7 +7,7 @@ import {formatRelative} from 'date-fns' //to format the time
 
 import "@reach/combobox/styles.css"; 
 import "./Map.css";
-import mapStyles from '../mapStyles' //map style
+import mapStyles from './mapStyles' //map style
 
 import SearchBar from './SearchBar'
 import LocateCompass from './LocateCompass'
