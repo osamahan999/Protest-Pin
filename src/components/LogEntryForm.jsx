@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { createLogEntry,uploadImgae } from "../API";
+//import { createLogEntry,uploadImgae } from "../API";
 
 
 
 //import { FormControl } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import DatePicker from "react-datepicker";
-import ImageUploader from 'react-images-upload';
+//import ImageUploader from 'react-images-upload';
 import {Container} from 'react-bootstrap'
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -22,13 +22,13 @@ import 'date-fns';
 export default function LogEntryForm ({ location, onClose }) {
   const inputRef = React.createRef(null);
   const [loading, setLoading] = useState(false);
-  const [pictures, setPictures] = useState([]);
+  //const [pictures, setPictures] = useState([]);
 
   const [error, setError] = useState("");
   const {handleSubmit} = useForm();
   const [selectedDate, setSelectedDate] = useState(new Date()); 
-  const [title,setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [event_name,set_event_name] = useState("");
+  const [event_description, set_event_description] = useState("");
   
 
 
@@ -39,7 +39,7 @@ export default function LogEntryForm ({ location, onClose }) {
   };
 
 
-  const setVisitDate =(date) =>{
+  const set_event_date =(date) =>{
     setSelectedDate(date);
     console.log(selectedDate);
     console.log(date)
@@ -47,22 +47,17 @@ export default function LogEntryForm ({ location, onClose }) {
   
 
   const onSubmit = async() => {
+    console.log("submit clicked")
     try {
       setLoading(true);
       let data={};
-      if(pictures.length ===0){
-        data.image =""
-      }else{
-        const imageResponse = await uploadImgae(pictures) 
-        data.image = imageResponse.data.downloadUrl;
-      }
-     
       data.latitude = location.latitude;
       data.longitude = location.longitude;
-      data.title = title;
-      data.visitDate = selectedDate;
-      data.description = description;
-      await createLogEntry(data);
+      data.event_name = event_name;
+      data.time_of_event = selectedDate;
+      data.event_description = description;
+      console.log("data",data)
+      //await createLogEntry(data);
       //alert("Entry Created")
       onClose();
     } catch (error) {
@@ -82,49 +77,39 @@ export default function LogEntryForm ({ location, onClose }) {
       <TextField
           required
           className="textfield"
-          name="title"
+          name="event_name"
           id="outlined-required"
           label="Required Title"
-          placeholder="Title"
+          placeholder="Event Name"
           //variant="outlined"
-          onChange ={e=>setTitle(e.target.value)}
-         
+          onChange ={e=>set_event_name(e.target.value)}
           ref = {inputRef}
         />
      </Container>
+
+     
       
       <Container>
       <TextField
-          name="description"
-          label="Description"
-          placeholder="This place....."
+          name="event_description"
+          label="event_description"
+          placeholder="Event Description"
           className="textfield"
           multiline
-          onChange ={e=>setDescription(e.target.value)}
+          onChange ={e=>set_event_description(e.target.value)}
          
           ref={inputRef}
         />
         </Container>
 
-        <Container>
-        <ImageUploader
-            singleImage = {true}
-            withIcon={true}
-            className="imageUploader"
-            withPreview={true}
-            buttonText='Select an image'
-            onChange={onDrop}
-            imgExtension={['.jpg', '.gif', '.png', '.gif','.jpeg']}
-            maxFileSize={5242880}
-        />
-        </Container>
+       
 
       <Container className ="date-picker-container">
-      <label>Visit Date*</label>
+      <label>Time of Event</label>
       <DatePicker
         className="date-picker"
         selected={selectedDate}
-        onChange={date=>setVisitDate(date)}
+        onChange={date=>set_event_date(date)}
         dateFormat="MM/dd/yyyy"
         required
       />
@@ -133,14 +118,9 @@ export default function LogEntryForm ({ location, onClose }) {
       
 
      
-     <Container className="button-container">
-      <button 
-      className="button"
-      disabled={loading}
-      >
-        {loading ? "Loading..." : "Create Entry"}
-      </button>
-      </Container>
+     <button>
+       Hi
+     </button>
 
     </form>
     </div>
