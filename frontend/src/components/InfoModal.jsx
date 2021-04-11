@@ -1,40 +1,51 @@
 import react, {useState} from 'react'
 import FullPopup from "reactjs-popup"
-import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
 
-import './InfoModal.css'
+
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "./card-style.css";
+import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup'
+import CancelIcon from '@material-ui/icons/Cancel';
+import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
 
-export default function InfoModal({latitude, longitude, event_name,time_of_event,event_description,show,onHide}){
+
+
+export default function InfoModal({latitude, longitude, event_name,time_of_event,event_description,setSelected}){
     
-    
+    const joinOnClick = () =>{
+        alert("Join")
+        setSelected(null)
+    }
     return(
-        <div>
-        <Modal
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
+    <div>
+        <div className="card-body text-dark">
+            <h4 className="card-title">{event_name}</h4>
+            <p className="description"> {event_description}</p>
+            <p className="card-text text-secondary"> {time_of_event}</p>
+        </div>
+        <ButtonGroup
+            fullWidth={true}
         >
-        <Modal.Header closeButton>
-            <Modal.Title id="contained-modal-title-vcenter">
-            Modal heading
-            </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-            <h4>Centered Modal</h4>
-            <p>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-            consectetur ac, vestibulum at eros.
-            </p>
-        </Modal.Body>
-        <Modal.Footer>
-            <Button onClick={onHide}>Close</Button>
-        </Modal.Footer>
-        </Modal>
+            <Button
+            startIcon={<CancelIcon/>}
+            size="large"
+            variant="contained"
+            color = "primary"
+            onClick={()=>setSelected(null)}
+            >
+            Back
+            </Button>
+            <Button
+            startIcon={<DirectionsRunIcon/>}
+            size="large"
+            variant="contained"
+            color = "secondary"
+            onClick={()=>joinOnClick()}
+            >
+            Join
+            </Button>
+        </ButtonGroup>
     </div>
-
-    )
-
+  );
 }

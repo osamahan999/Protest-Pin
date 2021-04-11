@@ -82,7 +82,7 @@ export default function Map() {
       lng: event.latLng.lng(),
       time: new Date(),
     }
-    setMarkers(current => [...current,newLocation])
+
     setNewMarkerLocation(newLocation);
     
   }, [])
@@ -136,7 +136,7 @@ export default function Map() {
          }}
          >
            <div className="EventCreateForm">
-             <EventCreateForm lat={newMarkerLocation.lat} lng ={newMarkerLocation.lng} />
+             <EventCreateForm lat={newMarkerLocation.lat} lng ={newMarkerLocation.lng} setNewMarkerLocation={setNewMarkerLocation} getEventList={getEventList} />
            </div>
          </InfoWindow>): null}
 
@@ -154,12 +154,11 @@ export default function Map() {
             event_name = {selected.event_name}
             time_of_event = {selected.time_of_event}
             event_description = {selected.event_description}
-            show={modalShow}
-            onHide = {() => setModalShow(false)}
+            setSelected={setSelected}
+            //onHide = {() => setModalShow(false)}
             //setSelected = {setSelected}
            />           
          </InfoWindow>): null}
-
         </GoogleMap>
       
     </div>
