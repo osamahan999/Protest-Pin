@@ -47,9 +47,9 @@ const createEvent =
         })).then((success) => {
             return success
         })
-            .catch((err) => {
-                return err
-            })
+        .catch((err) => {
+            return err
+        })
     }
 
 const getEvents = () => {
@@ -81,7 +81,6 @@ const joinEvent = (login_token: string, event_id: number) => {
 
     return (new Promise((resolve, reject) => {
         connectionPool.query(join_event_query, inputs, (err, result, fields) => {
-            console.log(err)
             if (err) reject({ http_id: 400, message: "Failed to join event" })
             else resolve({ http_id: 200, message: "Successfully joined event!" })
         })
