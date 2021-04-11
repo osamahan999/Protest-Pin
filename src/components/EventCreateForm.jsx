@@ -9,7 +9,7 @@ import "./EventCreateForm.css";
 import axios from "axios";
 
 
-export default function EventCreateForm({lat,lng}){
+export default function EventCreateForm({lat,lng,setNewMarkerLocation,getEventList}){
     const inputRef = React.createRef(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
@@ -49,6 +49,9 @@ export default function EventCreateForm({lat,lng}){
         "longitude": lng,
       }).then((response) => {
           console.log(response)
+          alert("Protest is created successfully!")
+          getEventList()
+          setNewMarkerLocation(null)
           //do the login shit here
 
       }).catch((err) => {
