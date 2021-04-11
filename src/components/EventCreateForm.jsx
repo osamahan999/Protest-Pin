@@ -6,6 +6,7 @@ import {Container} from 'react-bootstrap'
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./EventCreateForm.css";
+import axios from "axios";
 
 
 export default function EventCreateForm({lat,lng}){
@@ -38,6 +39,25 @@ export default function EventCreateForm({lat,lng}){
       event.event_description = description;
 
       console.log(event)
+
+      axios.post("http://localhost:3306/event/createEvent", {
+        "user_id": 98,
+        "event_name": title,
+        "event_description": description,
+        "time_of_event": selectedDate,
+        "latitude": lat,
+        "longitude": lng,
+      }).then((response) => {
+          console.log(response)
+          //do the login shit here
+
+      }).catch((err) => {
+          alert(err);
+      })
+
+      //axios call here: create event
+
+
       //await createLogEntry(data);
       //alert("Entry Created")
       //onClose();

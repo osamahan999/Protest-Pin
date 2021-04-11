@@ -1,4 +1,6 @@
 import React,{useState} from 'react'
+
+import Map from './components/Map'
 import { ModalContainer } from './components/ModalContainer'
 
 import './App.css'
@@ -10,7 +12,7 @@ function App() {
   return (
     <>
    <div class="App">
-     <ModalContainer />
+      <Map/>
    </div> 
 
    </>
