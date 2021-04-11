@@ -82,7 +82,7 @@ export default function Map() {
       lng: event.latLng.lng(),
       time: new Date(),
     }
-
+    setSelected(null)
     setNewMarkerLocation(newLocation);
     
   }, [])
