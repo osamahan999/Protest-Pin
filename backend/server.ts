@@ -8,7 +8,12 @@ const app = express();
 const cors = require('cors'); //helps avoid CORS issues 
 const port = process.env.PORT || 5000; //pulls environemnt port or uses default 5000
 
+
+
 app.use(cors());
+
+
+
 app.use(express.json());
 
 //Initializes the connection pool
