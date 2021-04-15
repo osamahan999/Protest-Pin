@@ -1,4 +1,4 @@
-import react, {useState} from 'react'
+import react, {useState, useEffect} from 'react'
 import FullPopup from "reactjs-popup"
 
 
@@ -12,11 +12,20 @@ import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
 
 
 export default function InfoModal({latitude, longitude, event_name,time_of_event,event_description,setSelected}){
+    const [adjustedTimeString, setAdjustedTimeString] = useState("")
+
+    useEffect(() => {
+        let time = new Date(time_of_event).toLocaleTimeString('en-US');
+        console.log(time)
+      }, []);
+    
     
     const joinOnClick = () =>{
         alert("Join")
         setSelected(null)
     }
+
+    
     return(
     <div>
         <div className="card-body text-dark">

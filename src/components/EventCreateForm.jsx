@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import TextField from '@material-ui/core/TextField';
-import DatePicker from "react-datepicker";
+import DateTimePicker from './DateTimePicker'
 import {Container} from 'react-bootstrap'
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -105,14 +105,8 @@ export default function EventCreateForm({lat,lng,setNewMarkerLocation,getEventLi
 
 
       <Container className ="date-picker-container">
-      <label>Time of Event*</label>
-      <DatePicker
-        className="date-picker"
-        selected={selectedDate}
-        onChange={date=>setVisitDate(date)}
-        dateFormat="MM/dd/yyyy"
-        required
-      />
+        <div> <DateTimePicker setVisitDate={setVisitDate}></DateTimePicker></div>
+     
       </Container>
 
            
