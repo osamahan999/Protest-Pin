@@ -72,6 +72,9 @@ export default function Map() {
 
   return (
     <div>
+      <LoadScript
+        googleMapsApiKey = {apiKey}
+      >
       <SearchBar panTo = {panTo}/>
       <LocateCompass panTo = {panTo}/>
 
