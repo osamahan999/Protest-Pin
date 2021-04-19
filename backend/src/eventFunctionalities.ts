@@ -47,9 +47,9 @@ const createEvent =
         })).then((success) => {
             return success
         })
-            .catch((err) => {
-                return err
-            })
+        .catch((err) => {
+            return err
+        })
     }
 
 const getEvents = () => {
@@ -67,7 +67,49 @@ const getEvents = () => {
     }))
 }
 
+const joinEvent = (login_token: string, event_id: number) => {
+    const clean_token: string = xss(login_token);
+    const clean_event_id: number = xss(event_id);
+    const inputs: Array<number | string> = [clean_event_id, clean_token];
+
+    const join_event_query: string =
+        `INSERT INTO 
+            ${process.env.DATABASE_SCHEMA}.user_attending_event 
+                (event_id, user_id) 
+            VALUES 
+                (?, (SELECT user_id FROM ${process.env.DATABASE_SCHEMA}.login_token WHERE login_token.login_token=?))`;
+
+    return (new Promise((resolve, reject) => {
+        connectionPool.query(join_event_query, inputs, (err, result, fields) => {
+            if (err) reject({ http_id: 400, message: "Failed to join event" })
+            else resolve({ http_id: 200, message: "Successfully joined event!" })
+        })
+    }))
+}
+
+const getUserEvents = (user_token: string) => {
+    const clean_user_token: string = xss(user_token)
+    const query: string = `SELECT * FROM ${process.env.DATABASE_SCHEMA}.user_attending_event 
+        WHERE user_attending_event.user_id=
+            (SELECT user_id FROM ${process.env.DATABASE_SCHEMA}.login_token WHERE login_token.login_token=?)`
+    const inputs: Array<string> = [clean_user_token];
+
+    return (new Promise((resolve, reject) => {
+        connectionPool.query(
+            query,
+            inputs,
+            (err, result, fields) => {
+                if (err) reject({ http_id: 400, message: "Failed to get events" })
+                else resolve({ http_id: 200, message: result })
+            }
+        )
+    }))
+}
+
+
 module.exports = {
     createEvent,
-    getEvents
+    getEvents,
+    joinEvent,
+    getUserEvents
 }
