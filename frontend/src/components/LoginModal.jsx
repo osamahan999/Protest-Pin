@@ -1,60 +1,27 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import './ModalContainer.css';
-import { HomePage } from './HomePage.jsx'
-import { Redirect } from "react-router-dom";
+import {BrowserRouter as Router, Link} from 'react-router-dom';
+import Route from 'react-router-dom/Route';
+import Map from './Map';
+import { useHistory } from "react-router-dom";
 
 
-const isLoggedIn = () => {
-    let token = getToken();
-
-    if (token != null) {
-
-        axios.post("localhost:3306/login/loginWithToken", {
-            token: token
-
-        }).then((response) => {
-
-            //do the login shit here
-
-        }).catch((err) => {
-            alert(err);
-        })
-
-    }
-}
-
-/**
- * Returns the token from the cookies
- * or fail if no cookie with token
- */
-const getToken = () => {
-
-    let cookies = document.cookie.split(';');
-    let ret = '';
-
-    if (cookies[0] != "") {
-        cookies.forEach((keyPair) => {
-            let subArray = keyPair.split('=');
-            let key = subArray[0].trim();
-            let value = subArray[1].trim();
-
-            if (key == "token") ret = value;
-        })
-    } else return 'fail';
-
-    return ret;
-}
 
 
-export class LoginModal extends React.Component {
+export class LoginModal extends Component {
     constructor(props) {
         super(props)
+        this.props = props;
         this.state={
             username: "",
             password: "",
             redirect: null
         }
     }
+
+
+
+
 
     handleChange = event => {
         const isCheckbox = event.target.type === "checkbox";
@@ -74,6 +41,10 @@ export class LoginModal extends React.Component {
         }
       };
 
+    handleLogin = () => {
+        this.props.history.push("/");
+
+    }
     validate = () => {
 
        var axios = require('axios');
@@ -85,9 +56,7 @@ export class LoginModal extends React.Component {
         };
 
         axios(config)
-        .then(function (response) {
-            //TODO: route to main page
-
+        .then( response => {
             // Sets the cookie to the token
             if (response.data.token != null) {
                 let now = new Date();
@@ -97,11 +66,14 @@ export class LoginModal extends React.Component {
                 document.cookie = cookie;
             }
             console.log(JSON.stringify(response.data));
+
+
+            this.handleLogin();
         })
         .catch(function (error) {
             //TODO: error message pop up
             console.log(error);
-        });
+        })
 
 
     }
@@ -113,39 +85,50 @@ export class LoginModal extends React.Component {
         return (
             <>
 
+            { localStorage.getItem("isLoggedIn") ? 
+
                 <div className="overlay">
-                    <div className="modal" >
-                        <header id="modal-header">Member Login </header>
-                        <p id="desc">Login to access your account!</p>
-                        <form onSubmit={this.handleSubmit}>
-                        <div className="form" id="form">
-                        <input 
-                            id="username-field"
-                            type="text" 
-                            name="username" 
-                            value={this.state.name}
-                            onChange={this.handleChange}
-                            placeholder="Username"/>
+                <div className="modal" >
+                    <header id="modal-header">Member Login </header>
+                    <p id="desc">Login to access your account!</p>
+                    <form onSubmit={this.handleSubmit}>
+                    <div className="form" id="form">
+                    <input 
+                        id="username-field"
+                        type="text" 
+                        name="username" 
+                        value={this.state.name}
+                        onChange={this.handleChange}
+                        placeholder="Username"/>
 
-                        <br /><br />
-                        
-                        <input 
-                            id="password-field"
-                            type="password" 
-                            name="password" 
-                            value={this.state.password}
-                            onChange={this.handleChange}
-                            placeholder="Password" />
-                        </div>
-
-                        <br /><button type="submit">Log in</button>
-                        </form>
-
-                        <p id="desc">Don't have an account? <br /><button id="nav" onClick={this.openSignUp}>Create one</button></p>
-    
-
+                    <br /><br />
+                    
+                    <input 
+                        id="password-field"
+                        type="password" 
+                        name="password" 
+                        value={this.state.password}
+                        onChange={this.handleChange}
+                        placeholder="Password" />
                     </div>
+
+                    <br /><button type="submit">Log in</button>
+                    </form>
+
+
+                    <p id="desc">Don't have an account? <br />
+                    <Link to="/signup"><button id="nav">Create one</button></Link></p>
+
+
                 </div>
+                </div>
+            
+            
+            :
+            
+            null}
+
+                
             </>
 
         )

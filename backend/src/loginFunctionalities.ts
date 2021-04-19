@@ -90,11 +90,15 @@ const loginWithToken = (token: string) => {
                     if (result.length == 0)
                         reject({ http_id: 400, message: "Token not found" })
                     else
-                        resolve({ http_id: 200, message: "Token found successfully", user: result[0] })
+                        resolve({ http_id: 200, message: "Token found successfully", result })
                 }
             }
         )
-    }))
+    })).then((success) => {
+        return success;
+    }).catch((err) => {
+        return err;
+    })
 }
 
 const createUserToken = (username: string) => {
@@ -112,7 +116,11 @@ const createUserToken = (username: string) => {
             else
                 resolve({ http_id: 200, message: "Successfully created token", username: cleanUsername, token: token })
         })
-    }))
+    })).then((success) => {
+        return success;
+    }).catch((err) => {
+        return err;
+    })
 }
 
 
