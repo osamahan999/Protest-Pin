@@ -66,12 +66,10 @@ const getActivity = (userId: Number) => {
             query,
             inputs,
             (err, result, fields) => {
-                if (err) reject({ http_id: 400, message: "Failed to find login token" })
+                if (err) reject({ http_id: 400, message: "Failed to find user id" })
                 else {
-                    if (result.length == 0)
-                        reject({ http_id: 400, message: "Token not found" })
-                    else
-                        resolve({ http_id: 200, message: result })
+                
+                    resolve({ http_id: 200, message: result })
                 }
             }
         )
