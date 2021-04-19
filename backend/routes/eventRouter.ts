@@ -25,12 +25,25 @@ router.route('/createEvent').post(async (req: Request, res: Response) => {
     res.status(response.http_id).json(response.message);
 })
 
+router.route('/joinEvent').post(async (req: Request, res: Response) => {
+    const login_token: string = req.body.login_token;
+    const event_id: number = req.body.event_id;
+
+    let response = await eventFunctionalities.joinEvent(login_token, event_id);
+    res.status(response.http_id).json(response.message);
+})
 
 router.route('/getAllEvents').get(async (req: Request, res: Response) => {
-    let response = await eventFunctionalities.getEvents()
+    let response = await eventFunctionalities.getEvents()        
     res.status(response.http_id).json(response.message)
 })
 
+router.route('/getUserEvents').get(async (req: Request, res: Response) => {
+    const login_token = req.query.login_token;
+
+    let response = await eventFunctionalities.getUserEvents(login_token);
+    res.status(response.http_id).json(response.message)
+})
 
 
 module.exports = router
