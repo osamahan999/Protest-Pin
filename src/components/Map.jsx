@@ -28,9 +28,6 @@ function Map() {
       <LoadScript
         googleMapsApiKey = {apiKey}
       >
-      <h1>
-        Protest Pin{" "}
-      </h1>
         <GoogleMap
           mapContainerStyle={containerStyle}
           center={center}
