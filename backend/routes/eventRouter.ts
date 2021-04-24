@@ -45,5 +45,34 @@ router.route('/getUserEvents').get(async (req: Request, res: Response) => {
     res.status(response.http_id).json(response.message)
 })
 
+router.route('/getEventRating').get(async (req: Request, res: Response) => {
+    const event_id: number | any = req.query.event_id;
 
+    let response = await eventFunctionalities.getEventRating(event_id)
+    res.status(response.http_id).json(response.message)
+})
+
+router.route('/getSpecificEvent').get(async (req: Request, res: Response) => {
+    const event_id: number | any = req.query.event_id;
+
+    let response = await eventFunctionalities.getSpecificEvent(event_id);
+    res.status(response.http_id).json(response.message)
+})
+
+router.route('/voteOnEvent').post(async (req: Request, res: Response) => {
+    const login_token: string = req.body.login_token;
+    const event_id: number = req.body.event_id;
+    const votes: number = req.body.votes;
+
+    let response = await eventFunctionalities.voteOnEvent(login_token, event_id, votes);
+    res.status(response.http_id).json(response.message);
+})
+
+router.route('/removeVoteOnEvent').post(async (req: Request, res: Response) => {
+    const login_token: string = req.body.login_token;
+    const event_id: number = req.body.event_id;
+
+    let response = await eventFunctionalities.removeVoteOnEvent(login_token, event_id);
+    res.status(response.http_id).json(response.message);
+})
 module.exports = router
