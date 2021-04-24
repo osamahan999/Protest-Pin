@@ -64,7 +64,11 @@ const getEvents = () => {
                 else resolve({ http_id: 200, message: result })
             }
         )
-    }))
+    })).then((success) => {
+        return success
+    }).catch((err) => {
+        return err
+    })
 }
 
 const joinEvent = (login_token: string, event_id: number) => {
@@ -84,7 +88,11 @@ const joinEvent = (login_token: string, event_id: number) => {
             if (err) reject({ http_id: 400, message: "Failed to join event" })
             else resolve({ http_id: 200, message: "Successfully joined event!" })
         })
-    }))
+    })).then((success) => {
+        return success
+    }).catch((err) => {
+        return err
+    })
 }
 
 const getUserEvents = (user_token: string) => {
@@ -103,13 +111,99 @@ const getUserEvents = (user_token: string) => {
                 else resolve({ http_id: 200, message: result })
             }
         )
-    }))
+    })).then((success) => {
+        return success
+    }).catch((err) => {
+        return err
+    })
 }
 
+const getEventRating = (event_id: number) => {
+    const clean_event_id: number = xss(event_id)
 
+    const query: string = `SELECT votes, total_stars FROM ${process.env.DATABASE_SCHEMA}.event WHERE event_id=?`
+    const inputs: Array<number> = [clean_event_id]
+
+    return (new Promise((resolve, reject) => {
+        connectionPool.query(query, inputs, (err, result, fields) => {
+            if (err) reject({ http_id: 400, message: "Failed to get event" })
+            else {
+                if (result[0]["votes"] == 0) resolve({ http_id: 200, message: { "rating": 0 } })
+                else resolve({ http_id: 200, message: { "rating": result[0]["total_stars"] / result[0]["votes"] } })
+            }
+        })
+    })).then((success) => {
+        return success
+    }).catch((err) => {
+        return err
+    })
+}
+
+const getSpecificEvent = (event_id: number) => {
+    const clean_event_id = xss(event_id);
+
+    const query: string = `SELECT * FROM ${process.env.DATABASE_SCHEMA}.event WHERE event_id=?`;
+    const inputs: Array<number> = [clean_event_id];
+
+    return (new Promise((resolve, reject) => {
+        connectionPool.query(query, inputs, (err, result, fields) => {
+            if (err) reject({ http_id: 400, message: "Failed to get event" })
+            else resolve({ http_id: 200, message: { "event": result[0] } })
+        })
+    })).then((success) => {
+        return success
+    }).catch((err) => {
+        return err
+    })
+}
+
+const voteOnEvent = (login_token: string, event_id: number, votes: number) => {
+    const clean_login_token: string = xss(login_token)
+    const clean_event_id: number = xss(event_id);
+    const clean_votes: number = xss(votes);
+
+    const query: string = `INSERT INTO ${process.env.DATABASE_SCHEMA}.user_voted_on_event (user_id, event_id, votes) 
+        VALUES ((SELECT user_id FROM ${process.env.DATABASE_SCHEMA}.login_token WHERE login_token=?), ?, ?)`;
+    const inputs: Array<string | number> = [clean_login_token, clean_event_id, clean_votes];
+
+    return (new Promise((resolve, reject) => {
+        connectionPool.query(query, inputs, (err, result, fields) => {
+            if (err) reject({ http_id: 400, message: "Failed to update db" })
+            else resolve({ http_id: 200, message: "Update successful" })
+        })
+    })).then((success) => {
+        return success
+    }).catch((error) => {
+        return error
+    })
+}
+
+const removeVoteOnEvent = (login_token: string, event_id: number) => {
+    const clean_login_token: string = xss(login_token)
+    const clean_event_id: number = xss(event_id);
+
+    const query: string = `DELETE FROM ${process.env.DATABASE_SCHEMA}.user_voted_on_event WHERE event_id = ?
+     AND user_id = (SELECT user_id FROM ${process.env.DATABASE_SCHEMA}.login_token WHERE login_token=?)`;
+    const inputs: Array<string | number> = [clean_event_id, clean_login_token];
+
+    return (new Promise((resolve, reject) => {
+        connectionPool.query(query, inputs, (err, result, fields) => {
+            if (err) reject({ http_id: 400, message: "Failed to remove vote" })
+            else resolve({ http_id: 200, message: "Delete successful" })
+        })
+    })).then((success) => {
+        return success;
+    }).catch((error) => {
+        return error;
+    })
+}
 module.exports = {
     createEvent,
     getEvents,
     joinEvent,
-    getUserEvents
+    getUserEvents,
+    getEventRating,
+    getSpecificEvent,
+    voteOnEvent,
+    removeVoteOnEvent
 }
