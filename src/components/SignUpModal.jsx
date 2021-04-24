@@ -3,6 +3,10 @@ import './ModalContainer.css';
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { Portal } from 'react-overlays';
+import {BrowserRouter as Router, Link} from 'react-router-dom';
+import Route from 'react-router-dom/Route';
+import Map from './Map';
+
 
 
 export class SignUpModal extends React.Component {
@@ -18,6 +22,7 @@ export class SignUpModal extends React.Component {
         };
 
     }
+
 
 
     date = new Date();
@@ -167,7 +172,6 @@ export class SignUpModal extends React.Component {
             axios(config)
             .then((response) => {
                 console.log(JSON.stringify(response.data));
-                this.handleRegistration();
 
             })
             .catch((error) => {
@@ -192,6 +196,7 @@ export class SignUpModal extends React.Component {
     render() {
         return (
             <>
+
 
             <div className="overlay">
                     <div className="modal" id="modal">
@@ -275,7 +280,11 @@ export class SignUpModal extends React.Component {
                             
                            <button type="submit">Sign up</button>
                            </form>
-                           <p id="desc">Already have an account? <br /><button id="nav" onClick={this.openLogin}>Login here!</button></p>
+                           <p id="desc">Already have an account? <br />
+                           <Link to="/login">
+                           <button id="nav" onClick={this.openLogin}>Login here!</button>
+                           </Link>
+                           </p>
 
                            </body>
                     </div>
