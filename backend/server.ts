@@ -24,11 +24,13 @@ var pool = require('./connectionPool');
 const registrationRouter = require("./routes/registrationRouter");
 const loginRouter = require("./routes/loginRouter");
 const eventRouter = require("./routes/eventRouter");
+const profileRouter = require("./routes/profileRouter");
 
 //connects router to url 
 app.use("/register", registrationRouter)
 app.use("/login", loginRouter)
 app.use("/event", eventRouter)
+app.use("/profile", profileRouter)
 
 
 app.get('/', (req: Request, res: Response) => {

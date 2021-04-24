@@ -5,6 +5,7 @@
     "@types/express": "^4.17.11",
     "@types/mocha": "^8.2.1",
     "@types/mysql": "^2.15.17",
+    "axios": "^0.21.1",
     "chai": "^4.3.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
