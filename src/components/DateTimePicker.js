@@ -26,10 +26,11 @@ export default function DateTimePicker({setVisitDate}) {
   
 
   return (
-    <form className={classes.container} noValidate>
+    <div>
       <TextField
+        style={{width:"50%"}}
         id="datetime-local"
-        label="Next appointment"
+        label="Date and Time of the event"
         type="datetime-local"
         defaultValue="2017-05-24T10:30"
         onChange = {e=>onChange(e)}
@@ -38,6 +39,7 @@ export default function DateTimePicker({setVisitDate}) {
           shrink: true,
         }}
       />
-    </form>
+    </div>
+    
   );
 }

@@ -8,22 +8,30 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup'
 import CancelIcon from '@material-ui/icons/Cancel';
 import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import CustomizedRatings from './CustomizedRatings'
 
 
 
-export default function InfoModal({latitude, longitude, event_name,time_of_event,event_description,setSelected}){
+export default function InfoModal({event_id,organizer_id, event_name,time_of_event,event_description,setSelected,getEventList}){
     const [adjustedTimeString, setAdjustedTimeString] = useState("")
+    const [userId, setUserId] = useState(98);
 
     useEffect(() => {
         let time = new Date(time_of_event).toLocaleTimeString('en-US');
         console.log(time)
+        console.log("id",event_id)
       }, []);
     
     
     const joinOnClick = () =>{
-        alert("Join")
+        alert(event_id)
         setSelected(null)
+    }
+
+    const deleteOnClick = () =>{
+        alert("delete")
+
     }
 
     
@@ -33,9 +41,34 @@ export default function InfoModal({latitude, longitude, event_name,time_of_event
             <h4 className="card-title">{event_name}</h4>
             <p className="description"> {event_description}</p>
             <p className="card-text text-secondary"> {time_of_event}</p>
-            <CustomizedRatings></CustomizedRatings>
+            <CustomizedRatings curRatings={0} isStars={false}></CustomizedRatings>
         </div>
-        <ButtonGroup
+
+        {organizer_id === userId?(
+             <ButtonGroup
+             fullWidth={true}
+         >
+             <Button
+             startIcon={<CancelIcon/>}
+             size="large"
+             variant="contained"
+             color = "primary"
+             onClick={()=>setSelected(null)}
+             >
+             Back
+             </Button>
+             <Button
+             startIcon={<DirectionsRunIcon/>}
+             size="large"
+             variant="contained"
+             color = "secondary"
+             onClick={()=>joinOnClick()}
+             >
+             Join
+             </Button>
+         </ButtonGroup>
+        ):(
+            <ButtonGroup
             fullWidth={true}
         >
             <Button
@@ -48,15 +81,18 @@ export default function InfoModal({latitude, longitude, event_name,time_of_event
             Back
             </Button>
             <Button
-            startIcon={<DirectionsRunIcon/>}
+            startIcon={<DeleteForeverIcon/>}
             size="large"
             variant="contained"
             color = "secondary"
-            onClick={()=>joinOnClick()}
+            onClick={()=>deleteOnClick()}
             >
-            Join
+            Delete this event
             </Button>
         </ButtonGroup>
+        )
+        }
+       
     </div>
   );
 }

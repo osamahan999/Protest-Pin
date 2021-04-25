@@ -73,27 +73,29 @@ export default function EventCreateForm({lat,lng,setNewMarkerLocation,getEventLi
 
 
     return(
-        <div className="form-div">
+      
     <form onSubmit={handleSubmit(onSubmit)} className="entry-form" >
       {error ? <h3 className="error">{error}</h3> : null}
-     <Container>
+     
+     <div className="textfield">
       <TextField
-          required
-          className="textfield"
-          name="title"
-          id="outlined-required"
-          label="Required Title"
-          placeholder="Title"
-          //variant="outlined"
-          onChange ={e=>setTitle(e.target.value)}
-          ref = {inputRef}
+            style={{marginBottom:"10px"}}
+            required
+            className="textfield"
+            name="title"
+            id="outlined-required"
+            label="Required Title"
+            placeholder="Title"
+            //variant="outlined"
+            onChange ={e=>setTitle(e.target.value)}
+            ref = {inputRef}
         />
-     </Container>
-      
-      <Container>
-      <TextField
+
+         <TextField
+         style={{marginTop:"20px"}}
           name="description"
           label="Description"
+          required
           placeholder="This place....."
           className="textfield"
           multiline
@@ -101,26 +103,28 @@ export default function EventCreateForm({lat,lng,setNewMarkerLocation,getEventLi
          
           ref={inputRef}
         />
-        </Container>
+       
+     </div>
+      
 
-
-      <Container className ="date-picker-container">
-        <div> <DateTimePicker setVisitDate={setVisitDate}></DateTimePicker></div>
-     
-      </Container>
-
-           
-     <Container className="button-container">
+      <div className="textfield-div">
+        <DateTimePicker
+            
+            setVisitDate={setVisitDate}>
+            
+          </DateTimePicker>
+      </div>
+        
       <button 
       className="button"
       disabled={loading}
       >
         {loading ? "Loading..." : "Create Entry"}
       </button>
-      </Container>
+    
 
     </form>
-    </div>
+   
     
         
     )
