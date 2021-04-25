@@ -75,4 +75,14 @@ router.route('/removeVoteOnEvent').post(async (req: Request, res: Response) => {
     let response = await eventFunctionalities.removeVoteOnEvent(login_token, event_id);
     res.status(response.http_id).json(response.message);
 })
+
+router.route('/getEventsByFilter').get(async (req: Request, res: Response) => {
+    const input_name: string | any = req.query.input_name;
+    const input_description: string | any = req.query.input_description == undefined ? "" : req.query.input_description;
+    const created_after_date: string | any = req.query.created_after_date == undefined || req.query.created_after_date == "" ? "0-0-0" : req.query.created_after_date;
+    const occurring_after_date: string | any = req.query.occurring_after_date == undefined || req.query.occurring_after_date == "" ? "0-0-0" : req.query.occurring_after_date;
+
+    let response = await eventFunctionalities.getEventsByFilter(input_name, input_description, created_after_date, occurring_after_date);
+    res.status(response.http_id).json(response.message);
+})
 module.exports = router

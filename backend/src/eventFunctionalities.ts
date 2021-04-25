@@ -197,6 +197,35 @@ const removeVoteOnEvent = (login_token: string, event_id: number) => {
         return error;
     })
 }
+
+const getEventsByFilter = (input_name: string, input_description: string, created_after_date: string, occurring_after_date: string) => {
+    const clean_input_name: string = "%" + xss(input_name) + "%";
+    const clean_input_description: string = "%" + xss(input_description) + "%";
+    const clean_created_after_date: Date = xss(created_after_date);
+    const clean_occurring_after_date: Date = xss(occurring_after_date);
+
+    const query: string = `SELECT * FROM ${process.env.DATABASE_SCHEMA}.event WHERE event_name LIKE ? 
+                            AND event_description LIKE ? AND creation_date > ? AND time_of_event > ?`;
+    const inputs: Array<string | Date> = [clean_input_name, clean_input_description, clean_created_after_date, clean_occurring_after_date];
+
+    return (new Promise((resolve, reject) => {
+        console.log(query);
+        console.log(inputs);
+        connectionPool.query(query, inputs, (err, result, fields) => {
+            if (err) reject({ http_id: 400, message: "Failed to get events" })
+            else resolve({ http_id: 200, message: { "events": result } })
+        })
+    })).then((success) => {
+        console.log(success)
+
+        return success;
+    }).catch((err) => {
+        console.log(err)
+
+        return err;
+    })
+}
+
 module.exports = {
     createEvent,
     getEvents,
@@ -205,5 +234,6 @@ module.exports = {
     getEventRating,
     getSpecificEvent,
     voteOnEvent,
-    removeVoteOnEvent
+    removeVoteOnEvent,
+    getEventsByFilter
 }
