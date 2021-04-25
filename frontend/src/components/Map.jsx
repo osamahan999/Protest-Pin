@@ -149,12 +149,13 @@ export default function Map() {
          }}
          >
            <InfoModal
-            latitude={selected.latitude}
-            longitude={selected.longitude}
+            event_id = {selected.event_id}
+            organizer_id={selected.organizer_id}
             event_name = {selected.event_name}
             time_of_event = {selected.time_of_event}
             event_description = {selected.event_description}
             setSelected={setSelected}
+            getEventList={getEventList}
             //onHide = {() => setModalShow(false)}
             //setSelected = {setSelected}
            />           
