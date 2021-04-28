@@ -7,6 +7,8 @@ import { useHistory } from "react-router-dom";
 //import { HomePage } from './HomePage.jsx'
 import { Redirect } from "react-router-dom";
 import axios from 'axios'
+// import { isLoggedIn } from "../helper"
+import { withRouter } from 'react-router-dom'
 
 
 
@@ -15,13 +17,16 @@ export class LoginModal extends Component {
     constructor(props) {
         super(props)
         this.props = props;
+        // const history = this.props;
         this.state={
             username: "",
             password: "",
-            redirect: null
+            redirect: false,
+            validated: true,
+            loggedIn: false
+    
         }
     }
-
 
 
 
@@ -44,14 +49,10 @@ export class LoginModal extends Component {
         }
       };
 
-    handleLogin = () => {
-        this.props.history.push("/");
 
-    }
     validate = () => {
 
        var axios = require('axios');
-
         var config = {
         method: 'get',
         url: 'http://localhost:3306/login/loginUser?username=' + (this.state.username).toString() +'&password=' + (this.state.password).toString(),
@@ -67,31 +68,42 @@ export class LoginModal extends Component {
 
                 let cookie = "token = " + response.data.token + "; SameSite=None; Secure; expires=" + now.toUTCString();
                 document.cookie = cookie;
+
             }
-            console.log(JSON.stringify(response.data));
+            this.setState({validated: true});
+            console.log(response);
 
-
-            this.handleLogin();
         })
-        .catch(function (error) {
+        .catch(error => {
             //TODO: error message pop up
+            // document.getElementById("modal").style.filter = "drop-shadow(0 0 .75rem red)";
             console.log(error);
+            this.setState({validated: false});
         })
 
 
     }
 
 
-
     render() {
-
         return (
             <>
 
-            { localStorage.getItem("isLoggedIn") ? 
+        {/* <Router>
+            <Route path="/" exact component={Map}/>
+        </Router> */}
 
+            { !this.props.loggedIn &&
+            
+                <>
+                {/* <Route path="/" exact render={ 
+                () => {
+                    return ( <Map /> )
+                }
+
+                }/> */}
                 <div className="overlay">
-                <div className="modal" >
+                <div id="modal" className="modal" >
                     <header id="modal-header">Member Login </header>
                     <p id="desc">Login to access your account!</p>
                     <form onSubmit={this.handleSubmit}>
@@ -115,7 +127,9 @@ export class LoginModal extends Component {
                         placeholder="Password" />
                     </div>
 
-                    <br /><button type="submit">Log in</button>
+                    <br />
+                    <button type="submit">Log in</button>
+                    { !this.state.validated ? <p id="wrong-login">Wrong username or password</p> :null }
                     </form>
 
 
@@ -125,11 +139,11 @@ export class LoginModal extends Component {
 
                 </div>
                 </div>
+                </>
+
             
             
-            :
-            
-            null}
+       }
 
                 
             </>
@@ -138,3 +152,5 @@ export class LoginModal extends Component {
     }
 
 }
+
+export default withRouter(LoginModal)

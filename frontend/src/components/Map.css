@@ -1,4 +1,10 @@
 .EventCreateForm {
-  height: 50vh;
-  width: 40vw;
+  height: 40vh;
+  width: 35vw;
+}
+
+.locate {
+  left: 72vw;
+  top: 11vh;
+  /* top: 5vh; */
 }
