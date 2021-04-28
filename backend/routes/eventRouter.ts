@@ -85,4 +85,12 @@ router.route('/getEventsByFilter').get(async (req: Request, res: Response) => {
     let response = await eventFunctionalities.getEventsByFilter(input_name, input_description, created_after_date, occurring_after_date);
     res.status(response.http_id).json(response.message);
 })
+
+
+router.route('/getAllEventsInfo').get(async (req: Request, res: Response) => {
+    const user_id: number | any = req.query.user_id;
+
+    let response = await eventFunctionalities.getAllEventsInfo(user_id);
+    res.status(response.http_id).json(response.message);
+})
 module.exports = router
