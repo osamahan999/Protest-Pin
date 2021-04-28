@@ -209,8 +209,6 @@ const getEventsByFilter = (input_name: string, input_description: string, create
     const inputs: Array<string | Date> = [clean_input_name, clean_input_description, clean_created_after_date, clean_occurring_after_date];
 
     return (new Promise((resolve, reject) => {
-        console.log(query);
-        console.log(inputs);
         connectionPool.query(query, inputs, (err, result, fields) => {
             if (err) reject({ http_id: 400, message: "Failed to get events" })
             else resolve({ http_id: 200, message: { "events": result } })
@@ -226,6 +224,22 @@ const getEventsByFilter = (input_name: string, input_description: string, create
     })
 }
 
+const getAllEventsInfo = (user_id: number) => {
+    const clean_user_id = xss(user_id);
+
+    const query: string = `SELECT * FROM ${process.env.DATABASE_SCHEMA}.event NATURAL JOIN ${process.env.DATABASE_SCHEMA}.user_attending_event
+        WHERE user_id=?`;
+    const inputs: Array<number> = [clean_user_id];
+
+    return (new Promise((resolve, reject) => {
+        connectionPool.query(query, inputs, (err, result, fields) => {
+            if (err) reject({ http_id: 400, message: "Failed to pull events" })
+            else resolve({ http_id: 200, message: { events: result } })
+        })
+    })).then((success) => { return success })
+        .catch((err) => { return err })
+}
+
 module.exports = {
     createEvent,
     getEvents,
@@ -235,5 +249,6 @@ module.exports = {
     getSpecificEvent,
     voteOnEvent,
     removeVoteOnEvent,
-    getEventsByFilter
+    getEventsByFilter,
+    getAllEventsInfo
 }
