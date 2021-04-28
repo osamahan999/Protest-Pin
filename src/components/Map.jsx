@@ -97,8 +97,9 @@ export default function Map() {
 
   return (
     <div>
-      <SearchBar panTo = {panTo}/>
+      
       <LocateCompass panTo = {panTo}/>
+      <SearchBar panTo = {panTo}/>
 
         <GoogleMap
           mapContainerStyle={containerStyle}

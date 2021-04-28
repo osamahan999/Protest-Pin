@@ -39,8 +39,11 @@ export default function InfoModal({event_id,organizer_id, event_name,time_of_eve
     <div>
         <div className="card-body text-dark">
             <h4 className="card-title">{event_name}</h4>
+            <br/>
             <p className="description"> {event_description}</p>
+            <br/>
             <p className="card-text text-secondary"> {time_of_event}</p>
+            <br/>
             <CustomizedRatings curRatings={0} isStars={false}></CustomizedRatings>
         </div>
 
