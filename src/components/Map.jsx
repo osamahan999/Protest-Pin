@@ -15,6 +15,8 @@ import SearchBar from './SearchBar'
 import LocateCompass from './LocateCompass'
 import EventCreateForm from './EventCreateForm'
 import InfoModal from './InfoModal'
+import Header from './Header'
+import "./Page.css"
 
 
 const containerStyle = {
@@ -34,7 +36,7 @@ const options ={
 }
 const libraries = ["places"];
 
-export default function Map() {
+export default function Map(props) {
   const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: apiKey,

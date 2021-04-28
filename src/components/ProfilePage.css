@@ -1,35 +1,41 @@
 .profile-page {
-    position: fixed;
+    position: relative;
     display: flex;
-    width: 100%;
-    height: 95%;
-    bottom: 0%;
-    left: 0px;
-
-    background-image: linear-gradient(to bottom right, rgba(171, 196, 178), rgba(193, 205, 230));
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+    /* background-image: linear-gradient(to bottom right, #fe6b8b, #ff8e53); */
     flex-direction: column;
-
-    padding: 30px;
-    color: black;
+    padding: 5px;
     
+    color: black;
 
-
+  
 
 }
 
 .profile-header {
-    margin-top: 20px;
+    display: flex;
+    flex-direction: row; 
+    width: 100vw;
+    justify-content: space-between; 
+    padding: 10px;
+    
+}
+.profile-info {
+    margin-top: 10px;
     text-align: left;
     display:flex;
     flex-direction: column;
-    background: #FAF9F6;
-    padding: 20px;
+    /* background: #FAF9F6; */
     /* filter: drop-shadow(0 0 .5rem rgba(0, 0, 0, .1)); */
 
 }
 
-.profile-header h {
+.profile-info h {
     font-size: 17px;
+
+    color: #fe6b8b;
 
 }
 .unchecked {
@@ -40,9 +46,9 @@
 }
 
 .checked {
-    color: rgba(171, 196, 178);
+    color:  #fe6b8b;
     -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: rgba(171, 196, 178);
+    -webkit-text-stroke-color:#fe6b8b;
 
 }
 
@@ -53,8 +59,6 @@
 #bio {
     color: #bdbcb9;
 }
-
-
 
 .act p{
     color: black;
@@ -69,15 +73,51 @@
 }
 
 .act {
-    background-color:  #FAF9F6;
+    background-color:  #bdbcb9;
     position: relative;
     display: flex;
+    border: 1px #fe6b8b;
     
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: .5vh;
     
     float: left;
-    /* filter: drop-shadow(0 0 .5rem rgba(0, 0, 0, .1)); */
+    /* //filter: drop-shadow(0 0 .5rem #ff8e53); */
     
 
 }
+
+.page {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+}
+
+.logout {
+    margin-top: 1vh;
+    background-image: linear-gradient(to bottom right, #fe6b8b, #ff8e53);
+    padding: 2px;
+    width: 15vw;
+    height: 4vh;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    border-radius: 5px;
+    position: relative;
+
+}
+
+.loader {
+    border: 16px solid #bdbcb9; /* Light grey */
+    border-top: 16px solid #ff8e53; /* Blue */
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    animation: spin 2s linear infinite;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }

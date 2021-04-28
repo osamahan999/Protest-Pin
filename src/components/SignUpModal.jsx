@@ -200,8 +200,8 @@ export class SignUpModal extends React.Component {
 
             <div className="overlay">
                     <div className="modal" id="modal">
-                    <body className="Reg-body">
-                               <header id="modal-header">  Register your account</header>
+                    {/* <body className="Reg-body"> */}
+                               <header id="modal-header">Register your account</header>
                                <form onSubmit={this.validate}>
             
                             <div className="form" id="form">
@@ -280,13 +280,15 @@ export class SignUpModal extends React.Component {
                             
                            <button type="submit">Sign up</button>
                            </form>
+                            {/* <div className="go-back"> */}
                            <p id="desc">Already have an account? <br />
                            <Link to="/login">
                            <button id="nav" onClick={this.openLogin}>Login here!</button>
                            </Link>
                            </p>
+                           {/* </div> */}
 
-                           </body>
+                           {/* </body> */}
                     </div>
                     </div>
             </>
