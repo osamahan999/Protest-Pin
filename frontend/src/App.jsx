@@ -17,9 +17,9 @@ import Route from 'react-router-dom/Route'
 
 function App() {
 
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [user, setUser] = useState();
-  const [userId, setUserId] = useState();
+  // const [loggedIn, setLoggedIn] = useState(false);
+  // const [user, setUser] = useState();
+  // const [userId, setUserId] = useState();
 
 
   const logout = () => {
@@ -30,9 +30,12 @@ function App() {
     var expireTime = time + 1000*36000;
     now.setTime(expireTime);
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-    setUserId('');
-    setUser('');
-    setLoggedIn(false);
+    // setUserId('');
+    // setUser('');
+    // setLoggedIn(false);
+    localStorage.setItem("loggedIn",false);
+    localStorage.setItem("username", "");
+    localStorage.setItem("userId", "");
 
 }
 
@@ -45,13 +48,19 @@ function App() {
         axios.get(`http://localhost:3306/login/loginWithToken?token=${token}`).
         then((response) => {
             // localStorage.setItem("token", token);
-            setLoggedIn(true);
-            setUserId(response['data']['result'][0]['user_id']);
-            setUser(response['data']['result'][0]['username']);
+            // setLoggedIn(true);
+            // setUserId(response['data']['result'][0]['user_id']);
+            // setUser(response['data']['result'][0]['username']);
+            localStorage.setItem("loggedIn", true);
+            localStorage.setItem("username", response['data']['result'][0]['username']);
+            localStorage.setItem("userId", response['data']['result'][0]['user_id']);
+            document.cookie = document.cookie + "username="  + response['data']['result'][0]['username'] + ";";
 
 
         }).catch((err) => {
-            setLoggedIn(false);
+
+          console.log(err);
+            // setLoggedIn(false);
 
 
         })
@@ -77,18 +86,11 @@ function App() {
     <div class="App">
     <Router>
 
-      <Route path="/profile" exact render={() => { return ( 
-          <Profile loggedIn={loggedIn} 
-          logout={() => logout()}
-          user={user}
-          userId={userId}
-          /> )}}/>
-      
-      <Map loggedIn={loggedIn}/>
-      <Route path="/" exact render={() => { return ( <Map loggedIn={loggedIn}/> )} }/>
-      <Route path="/welcome" exact render={() => { return ( <WelcomeModal loggedIn={loggedIn}/> )} }/>
-      <Route path="/login" exact render={() => { return ( <LoginModal loggedIn={loggedIn} /> )} }/>
-      <Route path="/signup" exact render={() => { return ( <SignUpModal loggedIn={loggedIn}/> )} }/>
+      <Route path="/profile" exact render={() => { return ( <Profile logout={() => logout()} /> )}}/>
+      <Route path="/" exact render={() => { return ( <Map /> )} }/>
+      <Route path="/welcome" exact render={() => { return ( <WelcomeModal /> )} }/>
+      <Route path="/login" exact render={() => { return ( <LoginModal /> )} }/>
+      <Route path="/signup" exact render={() => { return ( <SignUpModal /> )} }/>
    </Router>
 
    </div> 

@@ -57,7 +57,7 @@ export default function Profile(props) {
     var activity = [];
 
 
-    await axios.get(`http://localhost:3306/profile/activity?userId=${props.userId}`)
+    await axios.get(`http://localhost:3306/profile/activity?userId=${localStorage.getItem("userId")}`)
     .then( response => {
         var data = response.data.message;
 
@@ -84,7 +84,7 @@ export default function Profile(props) {
     async function setProfile() {
         var axios = require('axios');
 
-        await axios.get(`http://localhost:3306/profile/profile?userId=${props.userId}`)
+        await axios.get(`http://localhost:3306/profile/profile?userId=${localStorage.getItem("userId")}`)
         .then((response) => {
             var data_rating = response['data']['result'][0]['avg_rating'];
             var data_bio = response['data']['result'][0]['bio'];
@@ -163,17 +163,17 @@ export default function Profile(props) {
     return (
         <>
 
-        <Header loggedIn={props.loggedIn}/>
         {activityLoaded ?
         <>
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
 
+        <Header />
 
         <div className="profile-page">
             <div className="profile-header">
                 <div className="profile-info">
-                    <h>{props.user}</h>
+                    <h>{localStorage.getItem("username")}</h>
                     <p id="review">      
 
 
@@ -182,7 +182,7 @@ export default function Profile(props) {
                 </div>
 
 
-                <Link to="/welcome"><button class="logout" onClick={props.logout()}>Logout</button></Link>
+                <Link to="/welcome"><button class="logout" onClick={ () => props.logout()}>Logout</button></Link>
             </div>
             <hr></hr>
         

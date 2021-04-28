@@ -74,10 +74,10 @@ export default function Map(props) {
   return (
     <div class="page">
 
-    { props.loggedIn &&    <>
+    { localStorage.getItem("loggedIn") &&    <>
       <SearchBar panTo = {panTo}/>
       <LocateCompass panTo = {panTo}/>
-      <Header loggedIn={props.loggedIn}/>
+      <Header />
       </>
     
     }

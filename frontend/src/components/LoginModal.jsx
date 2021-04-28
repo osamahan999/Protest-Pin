@@ -71,7 +71,7 @@ export class LoginModal extends Component {
 
             }
             this.setState({validated: true});
-            console.log(response);
+            window.location.assign("http://localhost:3000/");
 
         })
         .catch(error => {
@@ -93,7 +93,7 @@ export class LoginModal extends Component {
             <Route path="/" exact component={Map}/>
         </Router> */}
 
-            { !this.props.loggedIn &&
+            {/* { !localStorage.getItem("loggedIn") && */}
             
                 <>
                 {/* <Route path="/" exact render={ 
@@ -143,7 +143,7 @@ export class LoginModal extends Component {
 
             
             
-       }
+       {/* } */}
 
                 
             </>

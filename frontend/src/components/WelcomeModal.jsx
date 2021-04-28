@@ -8,8 +8,8 @@ export default function WelcomeModal(props){
 
         return (
             <>
-            {console.log(props.loggedIn)}
-            { !props.loggedIn ? 
+            {/* {console.log(localStorage.getItem("loggedIn"))} */}
+            {/* { !localStorage.getItem("loggedIn") ?  */}
             <div className='overlay'>
 
             <div id='modal' className='modal'>
@@ -21,7 +21,7 @@ export default function WelcomeModal(props){
             </div>
             </div>
     
-        : null}
+        {/* // : null} */}
            
         </>
         );
