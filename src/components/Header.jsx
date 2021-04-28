@@ -9,8 +9,8 @@ import Route from 'react-router-dom/Route';
 export default function Header(props) {
         return (
             <>
-            {console.log(props.loggedIn)}
-            { props.loggedIn &&
+            {console.log(localStorage.getItem("loggedIn"))}
+            { localStorage.getItem("loggedIn") &&
 
             <>
 

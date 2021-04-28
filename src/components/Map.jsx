@@ -98,10 +98,17 @@ export default function Map(props) {
   if (!isLoaded) return "Loading...";
 
   return (
-    <div>
-      
-      <LocateCompass panTo = {panTo}/>
+    <div class="page">
+
+    { localStorage.getItem("loggedIn") &&    <>
       <SearchBar panTo = {panTo}/>
+      <LocateCompass panTo = {panTo}/>
+      <Header />
+      </>
+    
+    }
+
+ 
 
         <GoogleMap
           mapContainerStyle={containerStyle}
