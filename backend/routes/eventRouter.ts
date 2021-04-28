@@ -26,10 +26,10 @@ router.route('/createEvent').post(async (req: Request, res: Response) => {
 })
 
 router.route('/joinEvent').post(async (req: Request, res: Response) => {
-    const login_token: string = req.body.login_token;
+    const user_id: string = req.body.user_id;
     const event_id: number = req.body.event_id;
 
-    let response = await eventFunctionalities.joinEvent(login_token, event_id);
+    let response = await eventFunctionalities.joinEvent(user_id, event_id);
     res.status(response.http_id).json(response.message);
 })
 
@@ -39,9 +39,9 @@ router.route('/getAllEvents').get(async (req: Request, res: Response) => {
 })
 
 router.route('/getUserEvents').get(async (req: Request, res: Response) => {
-    const login_token = req.query.login_token;
+    const user_id = req.query.user_id;
 
-    let response = await eventFunctionalities.getUserEvents(login_token);
+    let response = await eventFunctionalities.getUserEvents(user_id);
     res.status(response.http_id).json(response.message)
 })
 
@@ -60,19 +60,19 @@ router.route('/getSpecificEvent').get(async (req: Request, res: Response) => {
 })
 
 router.route('/voteOnEvent').post(async (req: Request, res: Response) => {
-    const login_token: string = req.body.login_token;
+    const user_id: string = req.body.user_id;
     const event_id: number = req.body.event_id;
     const votes: number = req.body.votes;
 
-    let response = await eventFunctionalities.voteOnEvent(login_token, event_id, votes);
+    let response = await eventFunctionalities.voteOnEvent(user_id, event_id, votes);
     res.status(response.http_id).json(response.message);
 })
 
 router.route('/removeVoteOnEvent').post(async (req: Request, res: Response) => {
-    const login_token: string = req.body.login_token;
+    const user_id: number = req.body.user_id;
     const event_id: number = req.body.event_id;
 
-    let response = await eventFunctionalities.removeVoteOnEvent(login_token, event_id);
+    let response = await eventFunctionalities.removeVoteOnEvent(user_id, event_id);
     res.status(response.http_id).json(response.message);
 })
 
