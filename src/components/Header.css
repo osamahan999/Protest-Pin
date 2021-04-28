@@ -1,0 +1,64 @@
+.header-bar {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    width: 100%;
+    height: 10%;
+    top: 0px;
+    left: 0px;
+    background-image: linear-gradient(to bottom right, #fe6b8b, #ff8e53);
+    
+    /* background-color: #FAF9F6; */
+    /* filter: drop-shadow(0 0 1rem #c6c6c6); */
+    padding: 10px;
+    justify-content: space-between;
+    border: 1px black;
+}
+
+
+h {
+    font-family: "HelveticaNeue-Thin", "Helvetica Neue Thin", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    font-size: 25px;
+    letter-spacing: 5px;
+    float: left;
+    color: white;
+    font-weight: 1;
+    
+
+    /* color:  rgba(171, 196, 178); */
+
+} 
+
+  
+.map {
+    position: fixed;
+}
+  
+
+
+
+.icons {
+    display: flex;
+    justify-content: flex-end;
+    width: 20%;
+    background: transparent;
+
+}
+
+.material-icons {
+    padding-left: 15px;
+    background: transparent;
+    
+    /* color:  rgba(171, 196, 178); */
+    
+}
+
+/* Style buttons */
+button {
+    background-color: transparent;
+    border: none; 
+    color: white; 
+    cursor: pointer; 
+
+  }
+  

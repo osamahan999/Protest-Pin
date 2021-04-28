@@ -16,17 +16,18 @@
 .modal {
     position: relative;
     background-color: #FAF9F6;
-    width: 30%;
+    width: 40vw;
+    max-height: 80vh;
     z-index: 10;
-    align-items: center;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(1); 
     padding-bottom: 40px;
-    font-family: Menlo;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
     filter: drop-shadow(0 0 .75rem rgba(0, 0, 0, .5));
-
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   img {
@@ -36,6 +37,8 @@
 
   #modal-header {
     padding-top: 30px;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+
   }
   
   #desc {
@@ -45,16 +48,18 @@
 
   .modal button {
     padding: 10px; 
-    width: 60%;
-    border: none;
+    background-image: linear-gradient(to bottom right, #fe6b8b, #ff8e53);
+    padding: 2px;
+    width: 15vw;
+    height: 4vh;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    border-radius: 5px;
     margin: 5px;
-    border-radius: 10px;
-    font-family: Menlo;
-    background-color: #ebeae6;
+
   }
 
   .modal button:hover{
-    background-color:#282c34;
+    background-color:linear-gradient(to bottom right, #a34055, #965330);
     color:#fff;
   }
   
@@ -79,9 +84,8 @@
   }
 
   #username-field {
-    width: 80%;
+    width: 30vw;
     float: left;
-    margin-left: 20px;
   
   }
   .field {
@@ -89,11 +93,10 @@
   }
 
 .field input[type=text], input[type=password]  {
-  width: 80%;
+  width: 30vw;
   float: left;
-  margin-left: 20px;
-  font-family: Menlo;
-
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  margin-bottom: 20px;
 }
 
 .react-datepicker__input-container {
@@ -121,10 +124,11 @@
 
 .reqs {
   display: none;
-  margin-left: 20px;
+  margin-left: 5vw;
+  margin-top: -2vh;
   z-index: 15;
   position: fixed;
-  width: 60%;
+  width: 25vw;
   background-color: #fff;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   padding: 10px;
@@ -134,13 +138,14 @@
 }
 
 p {
-    color: #c6c6c6;
+  color: #c6c6c6;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
 }
 
 input {
   border: 1px solid black;
   border-radius: 3px;
-  font-family: Menlo;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
 
 }
 
@@ -150,5 +155,8 @@ input {
   display: block;
 }
 
+#wrong-login {
+  color: red;
+}
 
 

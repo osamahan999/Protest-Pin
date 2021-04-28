@@ -12,7 +12,8 @@ import mapStyles from './mapStyles' //map style
 import SearchBar from './SearchBar'
 import LocateCompass from './LocateCompass'
 import EventCreateForm from './EventCreateForm'
-
+import Header from './Header'
+import "./Page.css"
 
 
 const containerStyle = {
@@ -32,7 +33,7 @@ const options ={
 }
 const libraries = ["places"];
 
-export default function Map() {
+export default function Map(props) {
   const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: apiKey,
@@ -71,12 +72,17 @@ export default function Map() {
   if (!isLoaded) return "Loading...";
 
   return (
-    <div>
-      <LoadScript
-        googleMapsApiKey = {apiKey}
-      >
+    <div class="page">
+
+    { props.loggedIn &&    <>
       <SearchBar panTo = {panTo}/>
       <LocateCompass panTo = {panTo}/>
+      <Header loggedIn={props.loggedIn}/>
+      </>
+    
+    }
+
+ 
 
         <GoogleMap
           mapContainerStyle={containerStyle}

@@ -1,0 +1,16 @@
+[data-reach-combobox]{
+    position: absolute;
+    left: 53vw;
+    top: 5vh;
+
+}
+
+[data-reach-combobox-input]{
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+
+}
+
+[data-reach-popover]{
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+}
+
