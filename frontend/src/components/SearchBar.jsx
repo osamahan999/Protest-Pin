@@ -10,9 +10,15 @@ import {
   
   
   import "@reach/combobox/styles.css"; 
+  import styled from 'styled-components';
+ import "./SearchBar.css"
+
+
+
 
 
 export default function Search({ panTo }) {
+
     const {
       ready,
       value,
@@ -44,9 +50,23 @@ export default function Search({ panTo }) {
         console.log("😱 Error: ", error);
       }
     };
+
+    // const inputStyle = {
+    //   width: '50%',
+    //   border: 'none',
+    //   backgroundColor: '#c9c9c7',
+    //   fontColor: 'white',
+    //   position: 'relative'
   
+    
+    // };
+
     return (
+
+      
       <div className="search">
+
+            
         <Combobox 
         onSelect={async (address) => {
           setValue(address, false)
@@ -64,8 +84,10 @@ export default function Search({ panTo }) {
             value={value}
             onChange={handleInput}
             disabled={!ready}
-            placeholder="Search your location"
+            placeholder="Search your location" 
+            // style={inputStyle}
           />
+
   
           <ComboboxPopover>
             <ComboboxList>
