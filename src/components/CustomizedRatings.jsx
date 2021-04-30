@@ -51,15 +51,21 @@ IconContainer.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export default function CustomizedRatings() {
-  const [ratings, setRatings] = useState(2)
+export default function CustomizedRatings({event_ratings=0}) {
+  const [ratings, setRatings] = useState(0)
+
+
+  const ratingsOnChange = () =>{
+
+  }
   return (
     <div>
       <Box component="fieldset" mb={3} borderColor="transparent">
-        <Typography component="legend">Custom icon set</Typography>
+        <Typography component="legend">Ratings</Typography>
         <Rating
+          //onChange={ratings()}
           name="customized-icons"
-          defaultValue={ratings}
+          defaultValue={event_ratings}
           getLabelText={(value) => customIcons[value].label}
           IconContainerComponent={IconContainer}
         />

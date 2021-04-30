@@ -61,8 +61,6 @@ function App() {
 
           console.log(err);
             // setLoggedIn(false);
-
-
         })
 
     }

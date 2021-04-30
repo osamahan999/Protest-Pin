@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useForm } from "react-hook-form";
 import TextField from '@material-ui/core/TextField';
 import DateTimePicker from './DateTimePicker'
@@ -17,6 +17,14 @@ export default function EventCreateForm({lat,lng,setNewMarkerLocation,getEventLi
     const [selectedDate, setSelectedDate] = useState(new Date()); 
     const [title,setTitle] = useState("");
     const [description, setDescription] = useState("");
+    const [userId, setUserId] = useState(localStorage.getItem("userId"))
+
+    useEffect(() => {
+      console.log("user id: ",userId)
+      return () => {
+        //
+      }
+    }, [])
 
 
     const setVisitDate =(date) =>{
@@ -41,7 +49,7 @@ export default function EventCreateForm({lat,lng,setNewMarkerLocation,getEventLi
       console.log(event)
 
       axios.post("http://localhost:3306/event/createEvent", {
-        "user_id": 98,
+        "user_id": userId,
         "event_name": title,
         "event_description": description,
         "time_of_event": selectedDate,
