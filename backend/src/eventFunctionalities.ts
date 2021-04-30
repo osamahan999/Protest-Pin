@@ -71,17 +71,17 @@ const getEvents = () => {
     })
 }
 
-const joinEvent = (login_token: string, event_id: number) => {
-    const clean_token: string = xss(login_token);
+const joinEvent = (user_id: number, event_id: number) => {
+    const clean_user_id: number = xss(user_id);
     const clean_event_id: number = xss(event_id);
-    const inputs: Array<number | string> = [clean_event_id, clean_token];
+    const inputs: Array<number> = [clean_event_id, clean_user_id];
 
     const join_event_query: string =
         `INSERT INTO 
             ${process.env.DATABASE_SCHEMA}.user_attending_event 
                 (event_id, user_id) 
             VALUES 
-                (?, (SELECT user_id FROM ${process.env.DATABASE_SCHEMA}.login_token WHERE login_token.login_token=?))`;
+                (?, ?)`;
 
     return (new Promise((resolve, reject) => {
         connectionPool.query(join_event_query, inputs, (err, result, fields) => {
@@ -95,12 +95,11 @@ const joinEvent = (login_token: string, event_id: number) => {
     })
 }
 
-const getUserEvents = (user_token: string) => {
-    const clean_user_token: string = xss(user_token)
+const getUserEvents = (user_id: number) => {
+    const clean_user_id: number = xss(user_id);
     const query: string = `SELECT * FROM ${process.env.DATABASE_SCHEMA}.user_attending_event 
-        WHERE user_attending_event.user_id=
-            (SELECT user_id FROM ${process.env.DATABASE_SCHEMA}.login_token WHERE login_token.login_token=?)`
-    const inputs: Array<string> = [clean_user_token];
+        WHERE user_attending_event.user_id=?`
+    const inputs: Array<number> = [clean_user_id];
 
     return (new Promise((resolve, reject) => {
         connectionPool.query(
@@ -157,14 +156,14 @@ const getSpecificEvent = (event_id: number) => {
     })
 }
 
-const voteOnEvent = (login_token: string, event_id: number, votes: number) => {
-    const clean_login_token: string = xss(login_token)
+const voteOnEvent = (user_id: number, event_id: number, votes: number) => {
+    const clean_user_id: number = xss(user_id)
     const clean_event_id: number = xss(event_id);
     const clean_votes: number = xss(votes);
 
     const query: string = `INSERT INTO ${process.env.DATABASE_SCHEMA}.user_voted_on_event (user_id, event_id, votes) 
-        VALUES ((SELECT user_id FROM ${process.env.DATABASE_SCHEMA}.login_token WHERE login_token=?), ?, ?)`;
-    const inputs: Array<string | number> = [clean_login_token, clean_event_id, clean_votes];
+        VALUES (?, ?, ?)`;
+    const inputs: Array<string | number> = [clean_user_id, clean_event_id, clean_votes];
 
     return (new Promise((resolve, reject) => {
         connectionPool.query(query, inputs, (err, result, fields) => {
@@ -178,13 +177,13 @@ const voteOnEvent = (login_token: string, event_id: number, votes: number) => {
     })
 }
 
-const removeVoteOnEvent = (login_token: string, event_id: number) => {
-    const clean_login_token: string = xss(login_token)
+const removeVoteOnEvent = (user_id: number, event_id: number) => {
+    const clean_user_id: number = xss(user_id)
     const clean_event_id: number = xss(event_id);
 
     const query: string = `DELETE FROM ${process.env.DATABASE_SCHEMA}.user_voted_on_event WHERE event_id = ?
-     AND user_id = (SELECT user_id FROM ${process.env.DATABASE_SCHEMA}.login_token WHERE login_token=?)`;
-    const inputs: Array<string | number> = [clean_event_id, clean_login_token];
+     AND user_id = ?`;
+    const inputs: Array<string | number> = [clean_event_id, clean_user_id];
 
     return (new Promise((resolve, reject) => {
         connectionPool.query(query, inputs, (err, result, fields) => {
