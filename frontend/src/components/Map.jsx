@@ -47,13 +47,16 @@ export default function Map(props) {
   const [selected,setSelected] = useState(null) //the marker was clicked by user
   const [modalShow, setModalShow] = useState(true);
   const [eventList, setEventList] = useState([])
+  const [userId, setUserId] = useState()
 
   const mapRef = useRef()  //use ref to avoid react to rerender
   
 
 
   const getEventList = () => {  //call backend api for all the protest events 
-
+    setUserId(localStorage.getItem("userId"),()=>{
+      console.log("updated from map: ",userId)
+    })
     axios.get("http://localhost:3306/event/getAllEvents")
     .then((response) => {
     console.log("Get back from api",response.data)
@@ -131,6 +134,7 @@ export default function Map(props) {
          }}
          onClick = { ()=>{
            setSelected(event);
+           console.log("selected event data: ", event)
          } }
          >
          </Marker>)}
@@ -159,6 +163,7 @@ export default function Map(props) {
          }}
          >
            <InfoModal
+            user_id = {parseInt(userId) }
             event_id = {selected.event_id}
             organizer_id={selected.organizer_id}
             event_name = {selected.event_name}
