@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import TextField from '@material-ui/core/TextField';
 import DateTimePicker from './DateTimePicker'
 import {Container} from 'react-bootstrap'
+import ImageUploader from 'react-images-upload'
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./EventCreateForm.css";
@@ -18,6 +19,7 @@ export default function EventCreateForm({lat,lng,setNewMarkerLocation,getEventLi
     const [title,setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [userId, setUserId] = useState(localStorage.getItem("userId"))
+    const [pictures, setPictures] = useState([])
 
     useEffect(() => {
       console.log("user id: ",userId)
@@ -33,11 +35,21 @@ export default function EventCreateForm({lat,lng,setNewMarkerLocation,getEventLi
         console.log(date)
     }
 
+    const onDrop = picture => {
+      setPictures(picture);
+      console.log(picture)
+    };
     
   const onSubmit = async() => {
     try {
       setLoading(true);
       let event={};
+      if(pictures.length ===0){
+        //event.image =""
+      }else{
+        //const imageResponse = await uploadImgae(pictures) 
+        //event.image = imageResponse.data.downloadUrl;
+      }
      
      
       event.latitude = lat;
@@ -112,6 +124,19 @@ export default function EventCreateForm({lat,lng,setNewMarkerLocation,getEventLi
           ref={inputRef}
         />
        
+     </div>
+
+     <div>
+     <ImageUploader
+            singleImage = {true}
+            withIcon={true}
+            className="imageUploader"
+            withPreview={true}
+            buttonText='Select an image'
+            onChange={onDrop}
+            imgExtension={['.jpg', '.gif', '.png', '.gif','.jpeg']}
+            maxFileSize={5242880}
+        />
      </div>
       
 
