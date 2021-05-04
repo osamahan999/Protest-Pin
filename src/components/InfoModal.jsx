@@ -13,14 +13,21 @@ import CustomizedRatings from './CustomizedRatings'
 
 
 
-export default function InfoModal({user_id,event_id,organizer_id, event_name,time_of_event,event_description,setSelected,getEventList}){
+export default function InfoModal({position,user_id,event_id,organizer_id, event_name,time_of_event,event_description,setSelected,getEventList}){
     const [adjustedTimeString, setAdjustedTimeString] = useState("")
+    const [googleUrl, setGoogleUrl]  = useState("")
+    const [currentDateTime, setCurrentDateTime] = useState(new Date())
     //const [userId, setUserId] = useState(98);
 
     useEffect(() => {
         //setUserId(localStorage.getItem("userId"))
-        let time = new Date(time_of_event).toLocaleTimeString('en-US');
-        console.log(time)
+        let time = new Date(time_of_event)
+        setCurrentDateTime(time)
+        console.log(time.toString())
+
+        const url = `https://www.google.com/maps/search/?api=1&query=${position.lat},${position.lng}`
+        setGoogleUrl(url)
+        console.log(url)
         console.log("event id",event_id)
         console.log("organizer id", organizer_id)
         console.log("user id:",user_id)
@@ -42,11 +49,14 @@ export default function InfoModal({user_id,event_id,organizer_id, event_name,tim
     return(
     <div>
         <div className="card-body text-dark">
-            <h4 className="card-title">{event_name}</h4>
+            <h2 className="card-title">{event_name}</h2>
             <br/>
-            <p className="description"> {event_description}</p>
+            <h4 className="description"> {event_description}</h4>
             <br/>
-            <p className="card-text text-secondary"> {time_of_event}</p>
+            <h4 className="card-text text-secondary"> {currentDateTime.toString()}</h4>
+            <br/>
+            <a href={googleUrl} target="_blank" rel="noopener noreferrer"> Show me on Google Maps</a>
+            <br/>
             <br/>
             <CustomizedRatings curRatings={0} isStars={false}></CustomizedRatings>
         </div>
