@@ -137,7 +137,7 @@ const getUserEvents = (user_id: number) => {
 
 const getUserRating = (user_id: number) => {
     const clean_user_id: number = xss(user_id)
-    const query: string = `SELECT (select username from user where user_id=?), 
+    const query: string = `SELECT (select username from ${process.env.DATABASE_SCHEMA}.user where user_id=?) as 'User',
         SUM(rating_score)/COUNT(*) as "User Average" FROM ${process.env.DATABASE_SCHEMA}.user_reviews where user_id=?`
     const inputs: Array<number> = [clean_user_id, clean_user_id]
 
@@ -146,6 +146,7 @@ const getUserRating = (user_id: number) => {
             query,
             inputs,
             (err, result, fields) => {
+                console.log(err)
                 if (err) reject({ http_id: 400, message: "Failed to get user rating" })
                 else resolve({ http_id: 200, message: result })
             }
