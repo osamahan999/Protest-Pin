@@ -52,7 +52,7 @@ IconContainer.propTypes = {
 };
 
 export default function CustomizedRatings({event_ratings=0}) {
-  const [ratings, setRatings] = useState(0)
+  const [ratings, setRatings] = useState(event_ratings)
 
 
   const ratingsOnChange = () =>{
