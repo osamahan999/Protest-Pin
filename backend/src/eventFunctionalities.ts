@@ -200,7 +200,7 @@ const voteOnEvent = (user_id: number, event_id: number, votes: number) => {
 
     const query: string = `INSERT INTO ${process.env.DATABASE_SCHEMA}.user_voted_on_event (user_id, event_id, votes) 
         VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE votes=?`;
-    const inputs: Array<string | number> = [clean_user_id, clean_event_id, clean_votes];
+    const inputs: Array<string | number> = [clean_user_id, clean_event_id, clean_votes, clean_votes];
 
     return (new Promise((resolve, reject) => {
         connectionPool.query(query, inputs, (err, result, fields) => {
