@@ -27,11 +27,19 @@ router.route('/createEvent').post(async (req: Request, res: Response) => {
 })
 
 router.route('/joinEvent').post(async (req: Request, res: Response) => {
-    const user_id: string = req.body.user_id;
+    const user_id: number = req.body.user_id;
     const event_id: number = req.body.event_id;
 
     let response = await eventFunctionalities.joinEvent(user_id, event_id);
     res.status(response.http_id).json(response.message);
+})
+
+router.route('/leaveEvent').post(async (req: Request, res: Response) => {
+    const user_id: number = req.body.user_id;
+    const event_id: number = req.body.event_id;
+
+    let response = await eventFunctionalities.leaveEvent(user_id, event_id);
+    res.status(response.http_id).json(response.message)
 })
 
 router.route('/getAllEvents').get(async (req: Request, res: Response) => {
@@ -61,7 +69,7 @@ router.route('/getSpecificEvent').get(async (req: Request, res: Response) => {
 })
 
 router.route('/voteOnEvent').post(async (req: Request, res: Response) => {
-    const user_id: string = req.body.user_id;
+    const user_id: number = req.body.user_id;
     const event_id: number = req.body.event_id;
     const votes: number = req.body.votes;
 
@@ -93,5 +101,20 @@ router.route('/getAllEventsInfo').get(async (req: Request, res: Response) => {
 
     let response = await eventFunctionalities.getAllEventsInfo(user_id);
     res.status(response.http_id).json(response.message);
+})
+
+router.route("/getUserRating").get(async (req: Request, res: Response) => {
+    const user_id: number | any = req.query.user_id;
+    let response = await eventFunctionalities.getUserRating(user_id);
+
+    res.status(response.http_id).json(response.message)
+})
+
+router.route("/deleteEvent").post(async (req: Request, res: Response) => {
+    const user_id: number = req.body.user_id;
+    const event_id: number = req.body.event_id;
+
+    let response = await eventFunctionalities.deleteEvent(user_id, event_id);
+    res.status(response.http_id).json(response.message)
 })
 module.exports = router
