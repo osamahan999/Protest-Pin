@@ -112,8 +112,10 @@ const leaveEvent = (user_id: number, event_id: number) => {
 
 const getUserEvents = (user_id: number) => {
     const clean_user_id: number = xss(user_id);
-    const query: string = `SELECT * FROM ${process.env.DATABASE_SCHEMA}.event A left outer join ${process.env.DATABASE_SCHEMA}.user_attending_event B
-        on A.event_id=B.event_id and B.user_id=?`
+    const query: string = `SELECT A.event_id, A.organizer_id, A.event_name, A.event_description, A.creation_date, 
+            A.time_of_event, A.latitude, A.longitude, A.votes, A.total_stars, B.user_id
+            FROM ${process.env.DATABASE_SCHEMA}.event A left outer join ${process.env.DATABASE_SCHEMA}.user_attending_event B 
+            on A.event_id=B.event_id and B.user_id=?`
     const inputs: Array<number> = [clean_user_id];
 
     return (new Promise((resolve, reject) => {
@@ -121,6 +123,7 @@ const getUserEvents = (user_id: number) => {
             query,
             inputs,
             (err, result, fields) => {
+                console.log(err)
                 if (err) reject({ http_id: 400, message: "Failed to get events" })
                 else resolve({ http_id: 200, message: result })
             }
@@ -134,14 +137,16 @@ const getUserEvents = (user_id: number) => {
 
 const getUserRating = (user_id: number) => {
     const clean_user_id: number = xss(user_id)
-    const query: string = `SELECT user_id, SUM(rating_score)/COUNT(*) as "User Average" FROM ${process.env.DATABASE_SCHEMA}.user_reviews where user_id=?`
-    const inputs: Array<number> = [clean_user_id]
+    const query: string = `SELECT (select username from ${process.env.DATABASE_SCHEMA}.user where user_id=?) as 'User',
+        SUM(rating_score)/COUNT(*) as "User Average" FROM ${process.env.DATABASE_SCHEMA}.user_reviews where user_id=?`
+    const inputs: Array<number> = [clean_user_id, clean_user_id]
 
     return (new Promise((resolve, reject) => {
         connectionPool.query(
             query,
             inputs,
             (err, result, fields) => {
+                console.log(err)
                 if (err) reject({ http_id: 400, message: "Failed to get user rating" })
                 else resolve({ http_id: 200, message: result })
             }
@@ -178,7 +183,9 @@ const getEventRating = (event_id: number) => {
 const getSpecificEvent = (event_id: number) => {
     const clean_event_id = xss(event_id);
 
-    const query: string = `SELECT * FROM ${process.env.DATABASE_SCHEMA}.event WHERE event_id=?`;
+    const query: string = `SELECT event_id, organizer_id, event_name, event_description, creation_date, time_of_event
+        , latitude, longitude, username FROM ${process.env.DATABASE_SCHEMA}.event join ${process.env.DATABASE_SCHEMA}.user 
+        on event.organizer_id=user.user_id WHERE event_id=?`;
     const inputs: Array<number> = [clean_event_id];
 
     return (new Promise((resolve, reject) => {
@@ -200,7 +207,7 @@ const voteOnEvent = (user_id: number, event_id: number, votes: number) => {
 
     const query: string = `INSERT INTO ${process.env.DATABASE_SCHEMA}.user_voted_on_event (user_id, event_id, votes) 
         VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE votes=?`;
-    const inputs: Array<string | number> = [clean_user_id, clean_event_id, clean_votes];
+    const inputs: Array<string | number> = [clean_user_id, clean_event_id, clean_votes, clean_votes];
 
     return (new Promise((resolve, reject) => {
         connectionPool.query(query, inputs, (err, result, fields) => {
@@ -212,6 +219,20 @@ const voteOnEvent = (user_id: number, event_id: number, votes: number) => {
     }).catch((error) => {
         return error
     })
+}
+
+const getAmtOfAttendees = (event_id: number) => {
+    const clean_event_id: number = xss(event_id)
+
+    const query: string = `SELECT COUNT(*) AS 'Attendees' FROM ${process.env.DATABASE_SCHEMA}.user_attending_event where event_id = ?`
+    const inputs = [clean_event_id]
+
+    return (new Promise((resolve, reject) => {
+        connectionPool.query(query, inputs, (err, result, fields) => {
+            if (err) reject({ http_id: 400, message: "Failed to get total attendees" })
+            else resolve({ http_id: 200, message: result })
+        })
+    }))
 }
 
 const removeVoteOnEvent = (user_id: number, event_id: number) => {
@@ -306,5 +327,6 @@ module.exports = {
     getAllEventsInfo,
     getUserRating,
     deleteEvent,
-    leaveEvent
+    leaveEvent,
+    getAmtOfAttendees
 }
