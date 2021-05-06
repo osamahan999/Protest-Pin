@@ -116,4 +116,11 @@ router.route("/deleteEvent").post(async (req: Request, res: Response) => {
     let response = await eventFunctionalities.deleteEvent(user_id, event_id);
     res.status(response.http_id).json(response.message)
 })
+
+router.route("/getEventAttendees").get(async (req: Request, res: Response) => {
+    const event_id: number | any = req.query.event_id;
+    let response = await eventFunctionalities.getAmtOfAttendees(event_id);
+    res.status(response.http_id).json(response.message)
+
+})
 module.exports = router
