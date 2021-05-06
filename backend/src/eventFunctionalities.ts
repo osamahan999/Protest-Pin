@@ -281,7 +281,7 @@ const deleteEvent = (user_id: number, event_id: number) => {
     const clean_event_id = xss(user_id);
 
     const query: string = `DELETE FROM ${process.env.DATABASE_SCHEMA}.event WHERE event_id=? 
-            AND (SELECT can_delete FROM ${process.env.DATABASE_SCHEMA}.event_permissions where user_id=?, event_id=?) = 1`;
+            AND (SELECT can_delete FROM ${process.env.DATABASE_SCHEMA}.event_permissions where user_id=? AND event_id=?) = 1`;
     const inputs: Array<number> = [clean_event_id, clean_user_id, clean_event_id];
 
     return (new Promise((resolve, reject) => {
