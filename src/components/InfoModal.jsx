@@ -17,6 +17,7 @@ export default function InfoModal({position,user_id,event_id,organizer_id, event
     const [adjustedTimeString, setAdjustedTimeString] = useState("")
     const [googleUrl, setGoogleUrl]  = useState("")
     const [currentDateTime, setCurrentDateTime] = useState(new Date())
+    const [updatedRatings, setUpdatedRatings]= useState(0)
     //const [userId, setUserId] = useState(98);
 
     useEffect(() => {
@@ -24,6 +25,8 @@ export default function InfoModal({position,user_id,event_id,organizer_id, event
         let time = new Date(time_of_event)
         setCurrentDateTime(time)
         console.log(time.toString())
+        
+        
 
         const url = `https://www.google.com/maps/search/?api=1&query=${position.lat},${position.lng}`
         setGoogleUrl(url)
