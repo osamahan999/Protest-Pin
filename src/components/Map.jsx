@@ -163,6 +163,8 @@ export default function Map(props) {
          }}
          >
            <InfoModal
+            total_stars = {selected.total_stars}
+            votes = {selected.votes}
             position={{lat:selected.latitude, lng: selected.longitude}}
             user_id = {parseInt(userId) }
             event_id = {selected.event_id}
