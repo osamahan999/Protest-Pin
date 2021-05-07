@@ -21,6 +21,8 @@ export default function InfoModal({total_stars, votes,position,user_id,event_id,
     const [currentDateTime, setCurrentDateTime] = useState(new Date())
     const [updatedRatings, setUpdatedRatings]= useState(0)
     const [organizer_ratings, setOrganizer_ratings] = useState(0)
+    const [isPastEvent, setIsPastEvent] = useState(false)
+    const [isJoined, setIsJoined] = useState(false)
     //const [userId, setUserId] = useState(98);
 
     useEffect(() => {
@@ -28,6 +30,10 @@ export default function InfoModal({total_stars, votes,position,user_id,event_id,
         console.log("total stars",total_stars)
         console.log("votes", votes)
         let time = new Date(time_of_event)
+
+        if(time < new Date()){
+            setIsPastEvent(true)
+        }
         setCurrentDateTime(time)
         console.log(time.toString())
     
@@ -54,9 +60,49 @@ export default function InfoModal({total_stars, votes,position,user_id,event_id,
     
     const joinOnClick = () =>{
         console.log(event_id)
+        axios.post("http://localhost:3306/event/joinEvent", {
+            "user_id": user_id,
+            "event_id" : event_id
+           
+             }).then((response) => {
+              console.log(response.data)
+              setIsJoined(true)
+              alert("You have successfully joined the event!")
+              //setNewMarkerLocation(null)
+              //do the login shit here
+    
+            }).catch((err) => {
+              alert(err);
+              console.log(err)
+             })
+        
         
         setSelected(null)
     }
+
+
+    const leaveOnClick = () =>{
+        console.log(event_id)
+        axios.post("http://localhost:3306/event/leaveEvent", {
+            "user_id": user_id,
+            "event_id" : event_id
+           
+             }).then((response) => {
+              console.log(response.data)
+              setIsJoined(false)
+              alert("You have successfully joined the event!")
+              //setNewMarkerLocation(null)
+              //do the login shit here
+    
+            }).catch((err) => {
+              alert(err);
+              console.log(err)
+             })
+        
+        
+        setSelected(null)
+    }
+
 
     const deleteOnClick = () =>{
     
@@ -66,7 +112,9 @@ export default function InfoModal({total_stars, votes,position,user_id,event_id,
       }).then((response) => {
           console.log(response)
           alert("Protest is deleted successfully!")
+          console.log("calling getEventList")
           getEventList()
+          setSelected(null)
           //setNewMarkerLocation(null)
           //do the login shit here
 
@@ -84,8 +132,7 @@ export default function InfoModal({total_stars, votes,position,user_id,event_id,
         <div className="card-body text-dark">
             <h2 className="card-title">{event_name}</h2>    
             <h4>Orgainizer:{organizer_id}  </h4>
-            <br></br>
-            <CustomizedRatings curRatings={organizer_ratings} isStars={false}></CustomizedRatings>
+            <CustomizedRatings curRatings={organizer_ratings} isStars={true}></CustomizedRatings>
             
             <br/>
             <h4 className="description"> {event_description}</h4>
@@ -95,7 +142,10 @@ export default function InfoModal({total_stars, votes,position,user_id,event_id,
             <a href={googleUrl} target="_blank" rel="noopener noreferrer"> Show me on Google Maps</a>
             <br/>
             <br/>
-            <CustomizedRatings curRatings={0} isStars={false}></CustomizedRatings>
+            {isPastEvent? (
+                <CustomizedRatings user_id={user_id} event_id={event_id}  curRatings={0} isStars={false}></CustomizedRatings>
+            ) : (null)}
+           
         </div>
         {console.log("return:", user_id)}
         {organizer_id !== user_id?(
@@ -111,15 +161,26 @@ export default function InfoModal({total_stars, votes,position,user_id,event_id,
              >
              Back
              </Button>
-             <Button
+             {isJoined? (             <Button
              startIcon={<DirectionsRunIcon/>}
              size="large"
              variant="contained"
              color = "secondary"
-             onClick={()=>joinOnClick()}
+             onClick={()=>leaveOnClick()}
              >
-             Join
-             </Button>
+             Leave
+             </Button>): (
+                <Button
+                startIcon={<DirectionsRunIcon/>}
+                size="large"
+                variant="contained"
+                color = "secondary"
+                onClick={()=>joinOnClick()}
+                >
+                Join
+                </Button>
+             )}
+
          </ButtonGroup>
         ):(
             <ButtonGroup
