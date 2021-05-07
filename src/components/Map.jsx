@@ -54,10 +54,11 @@ export default function Map(props) {
 
 
   const getEventList = () => {  //call backend api for all the protest events 
-    setUserId(localStorage.getItem("userId"),()=>{
-      console.log("updated from map: ",userId)
+    const user_id = localStorage.getItem("userId")
+    setUserId(user_id)
+    axios.get("http://localhost:3306/event/getUserEvents",{
+      "user_id" : user_id
     })
-    axios.get("http://localhost:3306/event/getAllEvents")
     .then((response) => {
     console.log("Get back from api",response.data)
     setEventList(response.data)
@@ -163,6 +164,7 @@ export default function Map(props) {
          }}
          >
            <InfoModal
+        
             total_stars = {selected.total_stars}
             votes = {selected.votes}
             position={{lat:selected.latitude, lng: selected.longitude}}
