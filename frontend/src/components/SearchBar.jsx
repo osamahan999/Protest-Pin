@@ -10,7 +10,7 @@ import {
   
   
   import "@reach/combobox/styles.css"; 
-  import styled from 'styled-components';
+
  import "./SearchBar.css"
 
 

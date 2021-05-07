@@ -1,6 +1,17 @@
+.entry-form {
+  height: auto;
+  max-width: 550px;
+  margin: 0 auto;
+}
+
 .textfield {
-  margin-top: 3vh;
+  margin-top: 5vh;
+  margin-bottom: 5vh;
   width: 28vw;
+}
+
+.date-time-picker {
+  margin-top: 10vh;
 }
 
 .button-container {

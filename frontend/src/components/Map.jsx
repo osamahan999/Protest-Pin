@@ -1,5 +1,7 @@
-import React,{useState, useCallback,useRef} from 'react'
+import React,{useState, useCallback,useRef, useEffect} from 'react'
 import { GoogleMap, Marker,InfoWindow ,useLoadScript} from '@react-google-maps/api';
+import axios from 'axios'
+
 import {formatRelative} from 'date-fns' //to format the time 
 
 
@@ -12,6 +14,7 @@ import mapStyles from './mapStyles' //map style
 import SearchBar from './SearchBar'
 import LocateCompass from './LocateCompass'
 import EventCreateForm from './EventCreateForm'
+import InfoModal from './InfoModal'
 import Header from './Header'
 import "./Page.css"
 
@@ -42,23 +45,50 @@ export default function Map(props) {
   const [newMarkerLocation, setNewMarkerLocation] = useState(null);
   const [markers, setMarkers] = useState([])
   const [selected,setSelected] = useState(null) //the marker was clicked by user
-  const [selectedCenter, setSelectedCenter] = useState(null);
+  const [modalShow, setModalShow] = useState(true);
+  const [eventList, setEventList] = useState([])
+  const [userId, setUserId] = useState()
 
   const mapRef = useRef()  //use ref to avoid react to rerender
   
+
+
+  const getEventList = () => {  //call backend api for all the protest events 
+    const user_id = localStorage.getItem("userId")
+    setUserId(user_id)
+    axios.get("http://localhost:3306/event/getUserEvents",{
+      "user_id" : user_id
+    })
+    .then((response) => {
+    console.log("Get back from api",response.data)
+    setEventList(response.data)
+      //do the login shit here
+  }).catch((err) => {
+      alert(err);
+  })
+    
+  };
+
+
+  useEffect(() => {
+    getEventList();
+  }, []);
+
 
   const onMapLoad = useCallback( (map) => {
     mapRef.current = map;
   }, [] )
 
-  const onMapClick =  useCallback( (event)=>{
 
+
+
+  const onMapClick =  useCallback( (event)=>{
     const newLocation = {
       lat: event.latLng.lat(),
       lng: event.latLng.lng(),
       time: new Date(),
     }
-    setMarkers(current => [...current,newLocation])
+    setSelected(null)
     setNewMarkerLocation(newLocation);
     
   }, [])
@@ -93,10 +123,9 @@ export default function Map(props) {
           onLoad = {onMapLoad}
         >
 
-        
-         {markers.map(marker => 
-         <Marker key={marker.time.toISOString()} 
-         position={{lat:marker.lat, lng: marker.lng}}
+        {eventList.map(event => 
+         <Marker key={event.event_id} 
+         position={{lat:event.latitude, lng: event.longitude}}
          icon={{
            url: `/loudspeaker.svg`,
            scaledSize: new window.google.maps.Size(30,30),
@@ -105,10 +134,15 @@ export default function Map(props) {
           
          }}
          onClick = { ()=>{
-           setSelected(marker);
+           setSelected(event);
+           console.log("selected event data: ", event)
          } }
          >
          </Marker>)}
+
+
+
+         
 
          {newMarkerLocation ? (<InfoWindow
          position = {{lat:newMarkerLocation.lat, lng:newMarkerLocation.lng}}
@@ -117,25 +151,35 @@ export default function Map(props) {
          }}
          >
            <div className="EventCreateForm">
-             <EventCreateForm lat={newMarkerLocation.lat} lng ={newMarkerLocation.lng} />
+             <EventCreateForm lat={newMarkerLocation.lat} lng ={newMarkerLocation.lng} setNewMarkerLocation={setNewMarkerLocation} getEventList={getEventList} />
            </div>
          </InfoWindow>): null}
 
 
 
          {selected ? (<InfoWindow
-         position = {{lat:selected.lat, lng:selected.lng}}
+          position={{lat:selected.latitude, lng: selected.longitude}}
          onCloseClick = {()=>{  //after the user click the close btn, set the current selected location as null
            setSelected(null)
          }}
          >
-           <div>
-             <h2>This location is clicked!</h2>
-             <p>Location at {selected.lat}, {selected.lng}</p>
-             <p>The marker is created at {formatRelative(selected.time, new Date())} </p>
-           </div>
+           <InfoModal
+        
+            total_stars = {selected.total_stars}
+            votes = {selected.votes}
+            position={{lat:selected.latitude, lng: selected.longitude}}
+            user_id = {parseInt(userId) }
+            event_id = {selected.event_id}
+            organizer_id={selected.organizer_id}
+            event_name = {selected.event_name}
+            time_of_event = {selected.time_of_event}
+            event_description = {selected.event_description}
+            setSelected={setSelected}
+            getEventList={getEventList}
+            //onHide = {() => setModalShow(false)}
+            //setSelected = {setSelected}
+           />           
          </InfoWindow>): null}
-
         </GoogleMap>
       
     </div>

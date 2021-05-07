@@ -14,6 +14,7 @@ const eventFunctionalities = require('../src/eventFunctionalities')
  * @param {string}      time_of_event           When the event takes place
  */
 router.route('/createEvent').post(async (req: Request, res: Response) => {
+    console.log("/createEvent")
     const user_id: number = req.body.user_id;
     const event_name: string = req.body.event_name;
     const event_description: string = req.body.event_description;
