@@ -113,10 +113,11 @@ const leaveEvent = (user_id: number, event_id: number) => {
 const getUserEvents = (user_id: number) => {
     const clean_user_id: number = xss(user_id);
     const query: string = `SELECT A.event_id, A.organizer_id, A.event_name, A.event_description, A.creation_date, 
-            A.time_of_event, A.latitude, A.longitude, A.votes, A.total_stars, B.user_id
+            A.time_of_event, A.latitude, A.longitude, A.votes, A.total_stars, IFNULL(B.user_id, -1) AS "user_id",
+            IFNULL((SELECT votes FROM ${process.env.DATABASE_SCHEMA}.user_voted_on_event C WHERE C.user_id=? AND C.event_id=A.event_id), -1) AS "Votes"
             FROM ${process.env.DATABASE_SCHEMA}.event A left outer join ${process.env.DATABASE_SCHEMA}.user_attending_event B 
             on A.event_id=B.event_id and B.user_id=?`
-    const inputs: Array<number> = [clean_user_id];
+    const inputs: Array<number> = [clean_user_id, clean_user_id];
 
     return (new Promise((resolve, reject) => {
         connectionPool.query(
@@ -124,6 +125,7 @@ const getUserEvents = (user_id: number) => {
             inputs,
             (err, result, fields) => {
                 console.log(err)
+
                 if (err) reject({ http_id: 400, message: "Failed to get events" })
                 else resolve({ http_id: 200, message: result })
             }
