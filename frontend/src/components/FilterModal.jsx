@@ -5,6 +5,7 @@ import Popup from 'reactjs-popup';
 import './FilterModal.css'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import SearchIcon from '@material-ui/icons/Search';
  
 export default function FilterModal({setEventList}){ 
     const [input_name,setInput_name] = useState("")
@@ -50,7 +51,7 @@ export default function FilterModal({setEventList}){
     
         return(
             <Popup
-            trigger={<Button style={{backgroundColor:"rgb(252, 217, 215)"}} variant="outlined" color="default"> Filter Events </Button>}
+            trigger={<Button style={{backgroundColor:"white" ,borderRadius: "12px"}} startIcon={<SearchIcon/>}>Filter</Button>}
             modal
             nested
           >
