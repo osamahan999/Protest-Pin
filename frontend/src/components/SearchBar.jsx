@@ -65,8 +65,6 @@ export default function Search({ panTo }) {
 
       
       <div className="search">
-
-            
         <Combobox 
         onSelect={async (address) => {
           setValue(address, false)
