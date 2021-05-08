@@ -5,6 +5,8 @@
 }
 
 [data-reach-combobox-input] {
+  width: 30vh;
+  text-align: center;
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue",
     Helvetica, Arial, "Lucida Grande", sans-serif;
 }

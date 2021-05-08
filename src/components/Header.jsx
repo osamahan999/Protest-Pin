@@ -4,9 +4,10 @@ import './Header.css'
 import { Redirect } from "react-router-dom";
 import {BrowserRouter as Router, Link} from 'react-router-dom';
 import Route from 'react-router-dom/Route';
+import FilterModal from './FilterModal'
 // import SearchBar from './SearchBar'
 
-export default function Header(props) {
+export default function Header({setEventList}) {
         return (
             <>
             {console.log(localStorage.getItem("loggedIn"))}
@@ -23,6 +24,7 @@ export default function Header(props) {
 
             <div className="header-bar">
                 <h>PROTEST PIN</h>    
+                <FilterModal setEventList={setEventList}></FilterModal>
 
                 <div className="icons">
                 
@@ -30,7 +32,10 @@ export default function Header(props) {
                 
                 <Link to="/profile"><button><i class="material-icons">person</i></button></Link>
 
+                
                 </div> 
+              
+
 
 
             </div>

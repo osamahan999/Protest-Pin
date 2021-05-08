@@ -34,7 +34,7 @@ export default function InfoModal({user_votes,position,isAttending,user_id,event
             setIsPastEvent(true)
         }
         setCurrentDateTime(time)
-        console.log(time.toString())
+        //console.log(time.toString())
     
         axios.get(`http://localhost:3306/event/getUserRating?user_id=${organizer_id}`)
         .then((response) => {
@@ -48,7 +48,7 @@ export default function InfoModal({user_votes,position,isAttending,user_id,event
 
          axios.get(`http://localhost:3306/event/getEventAttendees?event_id=${event_id}`)
         .then((response) => {
-          console.log("number of",response.data)
+          //console.log("number of",response.data)
           setNumberOfAttendees(response.data[0].Attendees)
         }).catch((err) => {
           alert(err);
@@ -157,7 +157,7 @@ export default function InfoModal({user_votes,position,isAttending,user_id,event
             ) : (null)}
            
         </div>
-        {console.log("return:", user_id)}
+        <br/>
         {organizer_id !== user_id?(
              <ButtonGroup
              fullWidth={true}

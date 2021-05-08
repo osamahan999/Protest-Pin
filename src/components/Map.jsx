@@ -14,6 +14,7 @@ import mapStyles from './mapStyles' //map style
 import SearchBar from './SearchBar'
 import LocateCompass from './LocateCompass'
 import EventCreateForm from './EventCreateForm'
+import FilterModal from './FilterModal'
 import InfoModal from './InfoModal'
 import Header from './Header'
 import "./Page.css"
@@ -103,15 +104,20 @@ export default function Map(props) {
   return (
     <div class="page">
 
-    { localStorage.getItem("loggedIn") &&    <>
+    { localStorage.getItem("loggedIn") && <>
+      
       <SearchBar panTo = {panTo}/>
       <LocateCompass panTo = {panTo}/>
-      <Header />
+      
+      
+      
+      <Header setEventList={setEventList}/>
+     
       </>
     
     }
 
- 
+    
 
         <GoogleMap
           mapContainerStyle={containerStyle}
@@ -122,6 +128,9 @@ export default function Map(props) {
           onLoad = {onMapLoad}
         >
 
+
+    
+          
         {eventList.map(event => 
          <Marker key={event.event_id} 
          position={{lat:event.latitude, lng: event.longitude}}
@@ -134,7 +143,7 @@ export default function Map(props) {
          }}
          onClick = { ()=>{
            setSelected(event);
-           console.log("selected event data: ", event)
+           //console.log("selected event data: ", event)
          } }
          >
          </Marker>)}
@@ -165,7 +174,7 @@ export default function Map(props) {
            <InfoModal
             user_votes = {selected.Votes}
             position={{lat:selected.latitude, lng: selected.longitude}}
-            user_id = {user_id}
+            user_id = {parseInt(localStorage.getItem("userId"))}
             isAttending = {user_id===selected.user_id?(true):(false)}
             event_id = {selected.event_id}
             organizer_id={selected.organizer_id}
@@ -178,6 +187,8 @@ export default function Map(props) {
             //setSelected = {setSelected}
            />           
          </InfoWindow>): null}
+         
+        
         </GoogleMap>
       
     </div>
