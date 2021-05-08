@@ -2,8 +2,7 @@ import React, { useState,useEffect } from "react";
 import { useForm } from "react-hook-form";
 import TextField from '@material-ui/core/TextField';
 import DateTimePicker from './DateTimePicker'
-import {Container} from 'react-bootstrap'
-import ImageUploader from 'react-images-upload'
+import Button from '@material-ui/core/Button';
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./EventCreateForm.css";
@@ -30,25 +29,19 @@ export default function EventCreateForm({lat,lng,setNewMarkerLocation,getEventLi
 
 
     const setVisitDate =(date) =>{
+
         setSelectedDate(date);
-        console.log(selectedDate);
-        console.log(date)
     }
 
   const onSubmit = async() => {
     try {
       setLoading(true);
       let event={};
-      
-     
       event.latitude = lat;
       event.longitude = lng;
       event.event_name = title;
       event.time_of_event = selectedDate;
       event.event_description = description;
-
-      console.log(event)
-
       axios.post("http://localhost:3306/event/createEvent", {
         "user_id": userId,
         "event_name": title,
@@ -66,13 +59,6 @@ export default function EventCreateForm({lat,lng,setNewMarkerLocation,getEventLi
       }).catch((err) => {
           alert(err);
       })
-
-      //axios call here: create event
-
-
-      //await createLogEntry(data);
-      //alert("Entry Created")
-      //onClose();
     } catch (error) {
       console.error(error);
       setError(error.message);
@@ -86,52 +72,66 @@ export default function EventCreateForm({lat,lng,setNewMarkerLocation,getEventLi
     <form onSubmit={handleSubmit(onSubmit)} className="entry-form" >
       {error ? <h3 className="error">{error}</h3> : null}
      
-     <div className="textfield">
-      <TextField
-            style={{marginBottom:"10px"}}
+     <div>
+       <div>
+       <h4>Create your protest!</h4>
+       </div>
+       <br/>
+      
+       <div>
+       <TextField
             required
             className="textfield"
             name="title"
             id="outlined-required"
             label="Required Title"
             placeholder="Title"
-            //variant="outlined"
+            variant="outlined"
             onChange ={e=>setTitle(e.target.value)}
-            ref = {inputRef}
+            ref={inputRef}
         />
+       </div>
+      
 
-         <TextField
-         style={{marginTop:"20px"}}
+        <br/>
+        <br/>
+      <div>
+      <TextField
           name="description"
           label="Description"
           required
           placeholder="This place....."
           className="textfield"
           multiline
+          variant="outlined"
           onChange ={e=>setDescription(e.target.value)}
-         
           ref={inputRef}
         />
+      </div>
+       <br/>
        
      </div>
+     <br/>
+     <br/>
 
 
 
-      <div className="textfield-div">
+      <div>
         <DateTimePicker
             
             setVisitDate={setVisitDate}>
-            
+          
           </DateTimePicker>
       </div>
-        
-      <button 
+      <br/>
+        <br/>
+
+          <button 
       className="button"
       disabled={loading}
       >
         {loading ? "Loading..." : "Create Entry"}
       </button>
-    
 
     </form>
    

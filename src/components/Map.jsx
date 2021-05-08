@@ -149,7 +149,7 @@ export default function Map(props) {
            setNewMarkerLocation(null)
          }}
          >
-           <div className="EventCreateForm">
+           <div>
              <EventCreateForm lat={newMarkerLocation.lat} lng ={newMarkerLocation.lng} setNewMarkerLocation={setNewMarkerLocation} getEventList={getEventList} />
            </div>
          </InfoWindow>): null}
