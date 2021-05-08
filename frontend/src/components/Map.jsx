@@ -47,18 +47,17 @@ export default function Map(props) {
   const [selected,setSelected] = useState(null) //the marker was clicked by user
   const [modalShow, setModalShow] = useState(true);
   const [eventList, setEventList] = useState([])
-  const [userId, setUserId] = useState()
+  const [user_id, setUser_id] = useState()
 
   const mapRef = useRef()  //use ref to avoid react to rerender
   
 
 
   const getEventList = () => {  //call backend api for all the protest events 
-    const user_id = localStorage.getItem("userId")
-    setUserId(user_id)
-    axios.get("http://localhost:3306/event/getUserEvents",{
-      "user_id" : user_id
-    })
+    const userId = parseInt(localStorage.getItem("userId")) 
+    console.log("user id:",userId)
+    setUser_id(userId)
+    axios.get(`http://localhost:3306/event/getUserEvents?user_id=${userId}`)
     .then((response) => {
     console.log("Get back from api",response.data)
     setEventList(response.data)
@@ -164,11 +163,10 @@ export default function Map(props) {
          }}
          >
            <InfoModal
-        
-            total_stars = {selected.total_stars}
-            votes = {selected.votes}
+            user_votes = {selected.Votes}
             position={{lat:selected.latitude, lng: selected.longitude}}
-            user_id = {parseInt(userId) }
+            user_id = {user_id}
+            isAttending = {user_id===selected.user_id?(true):(false)}
             event_id = {selected.event_id}
             organizer_id={selected.organizer_id}
             event_name = {selected.event_name}
