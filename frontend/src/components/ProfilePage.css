@@ -3,7 +3,7 @@
     display: flex;
     width: 100vw;
     height: 100vh;
-    background-color: white;
+    background-color: #FAF9F6;
     /* background-image: linear-gradient(to bottom right, #fe6b8b, #ff8e53); */
     flex-direction: column;
     padding: 5px;
@@ -68,24 +68,11 @@
 
 .activity {
     position: relative;
+    display: flex;
     flex-direction: column;
     overflow-y: auto;
 }
 
-.act {
-    background-color:  #bdbcb9;
-    position: relative;
-    display: flex;
-    border: 1px #fe6b8b;
-    
-    width: 100%;
-    margin-bottom: .5vh;
-    
-    float: left;
-    /* //filter: drop-shadow(0 0 .5rem #ff8e53); */
-    
-
-}
 
 .page {
     position: fixed;
@@ -115,9 +102,51 @@
     top: 50%;
     left: 50%;
     position: absolute;
-  }
+  } 
   
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+
+  .activity-box {
+      display: flex;
+      padding-left: 10px; 
+      position: relative;
+
+      justify-content: flex-start;
+
+      background-color: white;
+      margin-left: 1vw;
+      margin-right: 1vw;
+
+      border: 1px solid black;
+      border-radius: 5px;
+  }
+
+  p#status-header {
+      color: black;
+      margin-right: 1vw;
+  }
+  p#time{
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 0vh;
+      margin-right: 1vw;
+      font-style: italic;
+  }
+
+.material-icobs {
+    transform: scale(2)
+  }
+
+textarea {
+    border: none;
+    background-color: transparent;
+    resize: none;
+    color: black;
+}
+
+#bio {
+    color: black;
+}

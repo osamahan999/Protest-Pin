@@ -59,8 +59,8 @@
   }
 
   .modal button:hover{
-    background-color:linear-gradient(to bottom right, #a34055, #965330);
-    color:#fff;
+    background-image:linear-gradient(to bottom right, #cf3c5c, #c76b3a);
+    color:white;
   }
   
   #nav {

@@ -4,16 +4,12 @@ import './Header.css'
 import { Redirect } from "react-router-dom";
 import {BrowserRouter as Router, Link} from 'react-router-dom';
 import Route from 'react-router-dom/Route';
-import FilterModal from './FilterModal'
 // import SearchBar from './SearchBar'
 
-export default function Header({setEventList}) {
+export default function Header(props) {
         return (
             <>
-            {console.log(localStorage.getItem("loggedIn"))}
-            { localStorage.getItem("loggedIn") &&
 
-            <>
 
                         <meta name="viewport" content="width=device-width, initial-scale=1"/>
                         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
@@ -24,7 +20,6 @@ export default function Header({setEventList}) {
 
             <div className="header-bar">
                 <h>PROTEST PIN</h>    
-                <FilterModal setEventList={setEventList}></FilterModal>
 
                 <div className="icons">
                 
@@ -32,16 +27,11 @@ export default function Header({setEventList}) {
                 
                 <Link to="/profile"><button><i class="material-icons">person</i></button></Link>
 
-                
                 </div> 
-              
-
 
 
             </div>
 
-            </>
-            }
 
             </>
 
