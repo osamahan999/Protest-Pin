@@ -55,17 +55,13 @@ IconContainer.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export default function CustomizedRatings({user_id, event_id,event_ratings=0, isStars}) {
-  const [ratings, setRatings] = useState(event_ratings)
-
-  useEffect(()=>{
-    console.log(user_id,event_id)
-    setRatings(event_ratings)
-  },[ratings])
-
+export default function UserRating({user_id, event_id,organizer_id,curRatings, isStars, getEventList}) {
+  //const [ratings, setRatings] = useState(0)
+  const [rating, setRatings] = useState(curRatings)
 
   const ratingsOnChange = (newValue) =>{
     console.log(newValue)
+    setRatings(newValue)
     axios.post("http://localhost:3306/event/voteOnEvent", {
         "user_id": user_id,
         "event_id":event_id,
@@ -74,6 +70,7 @@ export default function CustomizedRatings({user_id, event_id,event_ratings=0, is
          }).then((response) => {
           console.log(response.data)
           alert("Thank you for your vote")
+          getEventList()
           //setNewMarkerLocation(null)
           //do the login shit here
 
@@ -86,18 +83,7 @@ export default function CustomizedRatings({user_id, event_id,event_ratings=0, is
   }
   return (
     <div>
-      {isStars?(<Box component="fieldset" mb={3} borderColor="transparent">
-        <Typography component="legend">Organizer Ratings</Typography>
-        <Rating
-          //onChange={ratings()}
-          disabled={true}
-          name="customized-icons"
-          defaultValue={event_ratings}
-          getLabelText={(value) => customIcons[value].label}
-          //IconContainerComponent={IconContainer}
-          emptyIcon={<StarBorderIcon fontSize="inherit" />}
-        />
-      </Box>):(
+      
       <Box component="fieldset" mb={3} borderColor="transparent">
       <Typography component="legend">Rate this event</Typography>
       <StyledRating
@@ -105,13 +91,13 @@ export default function CustomizedRatings({user_id, event_id,event_ratings=0, is
         onChange={(event, newValue) => {
           ratingsOnChange(newValue);
         }}
-        defaultValue={ratings}
+        value={rating}
         getLabelText={(value) => `${value} Heart${value !== 1 ? 's' : ''}`}
         precision={1}
         icon={<FavoriteIcon fontSize="inherit" />}
       />
     </Box>
-      )}
+      
       
     </div>
   );

@@ -14,6 +14,7 @@ import mapStyles from './mapStyles' //map style
 import SearchBar from './SearchBar'
 import LocateCompass from './LocateCompass'
 import EventCreateForm from './EventCreateForm'
+import FilterModal from './FilterModal'
 import InfoModal from './InfoModal'
 import Header from './Header'
 import "./Page.css"
@@ -47,18 +48,17 @@ export default function Map(props) {
   const [selected,setSelected] = useState(null) //the marker was clicked by user
   const [modalShow, setModalShow] = useState(true);
   const [eventList, setEventList] = useState([])
-  const [userId, setUserId] = useState()
+  const [user_id, setUser_id] = useState()
 
   const mapRef = useRef()  //use ref to avoid react to rerender
   
 
 
   const getEventList = () => {  //call backend api for all the protest events 
-    const user_id = localStorage.getItem("userId")
-    setUserId(user_id)
-    axios.get("http://localhost:3306/event/getUserEvents",{
-      "user_id" : user_id
-    })
+    const userId = parseInt(localStorage.getItem("userId")) 
+    console.log("user id:",userId)
+    setUser_id(userId)
+    axios.get(`http://localhost:3306/event/getUserEvents?user_id=${userId}`)
     .then((response) => {
     console.log("Get back from api",response.data)
     setEventList(response.data)
@@ -104,15 +104,20 @@ export default function Map(props) {
   return (
     <div class="page">
 
-    { localStorage.getItem("loggedIn") &&    <>
+    { localStorage.getItem("loggedIn") && <>
+      
       <SearchBar panTo = {panTo}/>
       <LocateCompass panTo = {panTo}/>
-      <Header />
+      
+      
+      
+      <Header setEventList={setEventList}/>
+     
       </>
     
     }
 
- 
+    
 
         <GoogleMap
           mapContainerStyle={containerStyle}
@@ -123,6 +128,9 @@ export default function Map(props) {
           onLoad = {onMapLoad}
         >
 
+
+    
+          
         {eventList.map(event => 
          <Marker key={event.event_id} 
          position={{lat:event.latitude, lng: event.longitude}}
@@ -135,7 +143,7 @@ export default function Map(props) {
          }}
          onClick = { ()=>{
            setSelected(event);
-           console.log("selected event data: ", event)
+           //console.log("selected event data: ", event)
          } }
          >
          </Marker>)}
@@ -150,7 +158,7 @@ export default function Map(props) {
            setNewMarkerLocation(null)
          }}
          >
-           <div className="EventCreateForm">
+           <div>
              <EventCreateForm lat={newMarkerLocation.lat} lng ={newMarkerLocation.lng} setNewMarkerLocation={setNewMarkerLocation} getEventList={getEventList} />
            </div>
          </InfoWindow>): null}
@@ -164,11 +172,10 @@ export default function Map(props) {
          }}
          >
            <InfoModal
-        
-            total_stars = {selected.total_stars}
-            votes = {selected.votes}
+            user_votes = {selected.Votes}
             position={{lat:selected.latitude, lng: selected.longitude}}
-            user_id = {parseInt(userId) }
+            user_id = {parseInt(localStorage.getItem("userId"))}
+            isAttending = {user_id===selected.user_id?(true):(false)}
             event_id = {selected.event_id}
             organizer_id={selected.organizer_id}
             event_name = {selected.event_name}
@@ -180,6 +187,8 @@ export default function Map(props) {
             //setSelected = {setSelected}
            />           
          </InfoWindow>): null}
+         
+        
         </GoogleMap>
       
     </div>
