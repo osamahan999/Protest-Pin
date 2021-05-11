@@ -95,7 +95,7 @@ export default function InfoModal({user_votes,position,isAttending,user_id,event
               console.log(response.data)
               setIsJoined(false)
               getEventList()
-              alert("You have successfully joined the event!")
+              alert("You have left the event.")
               //setNewMarkerLocation(null)
               //do the login shit here
     
@@ -136,7 +136,7 @@ export default function InfoModal({user_votes,position,isAttending,user_id,event
     <div>
         <div className="card-body text-dark">
             <h2 className="card-title">{event_name}</h2>    
-            <h5>Orgainizer:  {organizer_name}  </h5>
+            <h5>Organizer:  {organizer_name}  </h5>
             <br/>
             
             <StarRatings organizer_id={organizer_id}></StarRatings>
