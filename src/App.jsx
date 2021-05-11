@@ -6,7 +6,9 @@ import { SignUpModal } from './components/SignUpModal'
 import Profile from './components/ProfilePage'
 import { getToken } from './helper'
 import Map from './components/Map'
+
 import Header from './components/Header'
+
 
 
 // import { Header } from './components/Header'
@@ -20,8 +22,10 @@ function App() {
   // const [loggedIn, setLoggedIn] = useState(false);
   // const [user, setUser] = useState();
   // const [userId, setUserId] = useState();
-
-
+  var loggedIn = null;
+  if (localStorage.getItem("loggedIn") == "false") {
+    loggedIn = false;
+  } else loggedIn = true; 
   const logout = () => {
 
     // Make cookie expire 
@@ -61,6 +65,8 @@ function App() {
 
           console.log(err);
             // setLoggedIn(false);
+
+
         })
 
     }
@@ -82,13 +88,25 @@ function App() {
     <>
 
     <div class="App">
+
     <Router>
 
+      <Map />
+      {/* {localStorage.getItem("loggedIn") ? <Header />  :null} */}
       <Route path="/profile" exact render={() => { return ( <Profile logout={() => logout()} /> )}}/>
       <Route path="/" exact render={() => { return ( <Map /> )} }/>
+
+      {/* { !loggedIn ?
+
+      <> */}
       <Route path="/welcome" exact render={() => { return ( <WelcomeModal /> )} }/>
       <Route path="/login" exact render={() => { return ( <LoginModal /> )} }/>
       <Route path="/signup" exact render={() => { return ( <SignUpModal /> )} }/>
+        {/* </>
+      : 
+      null
+
+      } */}
    </Router>
 
    </div> 
