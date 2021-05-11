@@ -27,6 +27,7 @@ export default function InfoModal({user_votes,position,isAttending,user_id,event
     const [organizer_name, setOrganizer_name]= useState("")
     const [numberOfAttendees, setNumberOfAttendees] = useState(0)
 
+
     useEffect(() => {
         setIsJoined(isAttending)
         let time = new Date(time_of_event)  
@@ -39,8 +40,9 @@ export default function InfoModal({user_votes,position,isAttending,user_id,event
         axios.get(`http://localhost:3306/event/getUserRating?user_id=${organizer_id}`)
         .then((response) => {
           console.log("organizer rating",response.data[0])
-          setOrganizerRatings(response.data[0].User_Averge)
+          //setOrganizerRatings(response.data[0].User_Averge)
           setOrganizer_name(response.data[0].User)
+          setUpdatedEventRating(event_id)
           getEventList()
         }).catch((err) => {
           alert(err);
@@ -61,6 +63,21 @@ export default function InfoModal({user_votes,position,isAttending,user_id,event
         
       }, []);
     
+      const setUpdatedEventRating = (event_id) =>{
+        axios.get(`http://localhost:3306/event/getEventRating?event_id=${event_id}`)
+        .then((response) => {
+          console.log("rating",response.data)
+          
+          setOrganizerRatings(response.data.rating)
+          //setOrganizer_name(response.data[0].User)
+          
+
+        }).catch((err) => {
+          alert(err);
+          console.log(err)
+         })
+
+      }
     
     const joinOnClick = () =>{
         console.log(event_id)
@@ -137,11 +154,8 @@ export default function InfoModal({user_votes,position,isAttending,user_id,event
     <div>
         <div className="card-body text-dark">
             <h2 className="card-title">{event_name}</h2>    
+            <StarRatings event_rating={organizer_ratings}></StarRatings>
             <h5>Organizer:  {organizer_name}  </h5>
-            <br/>
-            
-            <StarRatings organizer_id={organizer_id}></StarRatings>
-        
             <br/>
             <h4 className="description"> {event_description}</h4>
             <br/>
@@ -154,7 +168,7 @@ export default function InfoModal({user_votes,position,isAttending,user_id,event
             <br/>
             {isPastEvent&&isAttending? (
                 
-                <UserRating user_id={user_id} event_id={event_id} organizer_id={organizer_id}  curRatings={user_votes} isStars={false} getEventList={getEventList}></UserRating>
+                <UserRating setUpdatedEventRating={setUpdatedEventRating} user_id={user_id} event_id={event_id} organizer_id={organizer_id}  curRatings={user_votes} isStars={false} getEventList={getEventList}></UserRating>
             ) : (null)}
            
         </div>

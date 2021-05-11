@@ -4,32 +4,17 @@ import Rating from 'material-ui-rating'
 import StarRatingComponent from 'react-star-rating-controlled-component';
 
 
-export default function OrganizerRating({organizer_id}) {
-  const [ratings, setRatings] = useState(0)
+export default function OrganizerRating({event_rating}) {
   //const [ratings, setRatings] = useState(0)
-  useEffect(()=>{
-    axios.get(`http://localhost:3306/event/getUserRating?user_id=${organizer_id}`)
-        .then((response) => {
-          console.log("organizer rating",response.data[0]["User Average"])
-          
-          setRatings(response.data[0].User_Averge)
-          //setOrganizer_name(response.data[0].User)
-          
-
-        }).catch((err) => {
-          alert(err);
-          console.log(err)
-         })
-
-    
-  },[])
+  //const [ratings, setRatings] = useState(0)
+  
 
   return (
     <div>
       <StarRatingComponent 
           name="rate1" 
           //starCount={0}
-          value={ratings}
+          value={event_rating}
           //onStarClick={this.onStarClick.bind(this)}
         />
     </div>
