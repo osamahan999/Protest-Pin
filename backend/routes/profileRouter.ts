@@ -27,7 +27,7 @@ router.route('/activity').get(async (req: Request, res: Response) => {
 router.route('/voteOnOrganizer').post(async (req: Request, res: Response) => {
     const user_id: number = req.body.user_id;
     const organizer_id: number = req.body.organizer_id;
-    const review: number = req.body.review;
+    const review: string = req.body.review;
     const votes: number = req.body.votes;
 
     let response = await profileFunctionalities.voteOnOrganizer(user_id, organizer_id, review, votes);
