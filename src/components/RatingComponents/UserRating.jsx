@@ -55,7 +55,7 @@ IconContainer.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export default function UserRating({user_id, event_id,organizer_id,curRatings, isStars, getEventList}) {
+export default function UserRating({setUpdatedEventRating,user_id, event_id,organizer_id,curRatings, isStars, getEventList}) {
   //const [ratings, setRatings] = useState(0)
   const [rating, setRatings] = useState(curRatings)
 
@@ -70,6 +70,7 @@ export default function UserRating({user_id, event_id,organizer_id,curRatings, i
          }).then((response) => {
           console.log(response.data)
           alert("Thank you for your vote")
+          setUpdatedEventRating(event_id)
           getEventList()
           //setNewMarkerLocation(null)
           //do the login shit here
