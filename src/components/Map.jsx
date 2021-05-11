@@ -10,7 +10,7 @@ import {formatRelative} from 'date-fns' //to format the time
 import "@reach/combobox/styles.css"; 
 import "./Map.css";
 import mapStyles from './mapStyles' //map style
-
+// ./map-components/LocateCompass
 import SearchBar from './SearchBar'
 import LocateCompass from './LocateCompass'
 import EventCreateForm from './EventCreateForm'
@@ -51,6 +51,9 @@ export default function Map(props) {
   const [user_id, setUser_id] = useState()
 
   const mapRef = useRef()  //use ref to avoid react to rerender
+  var headerBool = null;
+  if (localStorage.getItem("loggedIn") == "true") headerBool = true;
+  else headerBool = false;
   
 
 
@@ -104,7 +107,8 @@ export default function Map(props) {
   return (
     <div class="page">
 
-    { localStorage.getItem("loggedIn") && <>
+    
+    { headerBool && <>
       
       <SearchBar panTo = {panTo}/>
       <LocateCompass panTo = {panTo}/>
