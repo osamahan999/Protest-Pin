@@ -95,7 +95,13 @@ export default function Map(props) {
 
   const panTo = useCallback(({lat, lng}) =>{
     mapRef.current.panTo({lat, lng})
-    mapRef.current.setZoom(12)
+    mapRef.current.setZoom(15)
+    const newLocation = {
+      lat: lat,
+      lng: lng,
+      time: new Date(),
+    }
+    setNewMarkerLocation(newLocation)
   },[])
 
   if (loadError) return "Error";
