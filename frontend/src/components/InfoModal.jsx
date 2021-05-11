@@ -41,6 +41,7 @@ export default function InfoModal({user_votes,position,isAttending,user_id,event
           console.log("organizer rating",response.data[0])
           setOrganizerRatings(response.data[0].User_Averge)
           setOrganizer_name(response.data[0].User)
+          getEventList()
         }).catch((err) => {
           alert(err);
           console.log(err)
