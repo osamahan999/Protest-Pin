@@ -26,6 +26,12 @@ router.route('/createEvent').post(async (req: Request, res: Response) => {
     res.status(response.http_id).json(response.message);
 })
 
+/**
+ * Adds a user to the event attendee list
+ *
+ * @param {number} user_id The user id
+ * @param {number} event_id
+ */
 router.route('/joinEvent').post(async (req: Request, res: Response) => {
     const user_id: number = req.body.user_id;
     const event_id: number = req.body.event_id;
@@ -34,6 +40,11 @@ router.route('/joinEvent').post(async (req: Request, res: Response) => {
     res.status(response.http_id).json(response.message);
 })
 
+/**
+ * if user attending event, leave
+ * @param {number} user_id The user id
+ * @param {number} event_id The event id
+ */
 router.route('/leaveEvent').post(async (req: Request, res: Response) => {
     const user_id: number = req.body.user_id;
     const event_id: number = req.body.event_id;
@@ -42,11 +53,19 @@ router.route('/leaveEvent').post(async (req: Request, res: Response) => {
     res.status(response.http_id).json(response.message)
 })
 
+/**
+ * Returns all events info
+ */
 router.route('/getAllEvents').get(async (req: Request, res: Response) => {
     let response = await eventFunctionalities.getEvents()        
     res.status(response.http_id).json(response.message)
 })
 
+/**
+ * Returns events & if user rated it
+ *
+ * @param {number} user_id The user id
+ */
 router.route('/getUserEvents').get(async (req: Request, res: Response) => {
     const user_id = req.query.user_id;
 
@@ -54,6 +73,10 @@ router.route('/getUserEvents').get(async (req: Request, res: Response) => {
     res.status(response.http_id).json(response.message)
 })
 
+/**
+ * Returns rating of a event
+ * @param {number} event_id
+ */
 router.route('/getEventRating').get(async (req: Request, res: Response) => {
     const event_id: number | any = req.query.event_id;
 
@@ -61,6 +84,10 @@ router.route('/getEventRating').get(async (req: Request, res: Response) => {
     res.status(response.http_id).json(response.message)
 })
 
+/**
+ * Gets event info with organizer information
+ * @param {number} event_id
+ */
 router.route('/getSpecificEvent').get(async (req: Request, res: Response) => {
     const event_id: number | any = req.query.event_id;
 
@@ -68,6 +95,13 @@ router.route('/getSpecificEvent').get(async (req: Request, res: Response) => {
     res.status(response.http_id).json(response.message)
 })
 
+/**
+ * User votes on aan event or updates ther previous vote
+  * @param {number} user_id The user id
+  * @param {number} event_id
+  * @param {number} votes
+
+ */
 router.route('/voteOnEvent').post(async (req: Request, res: Response) => {
     const user_id: number = req.body.user_id;
     const event_id: number = req.body.event_id;
@@ -77,6 +111,11 @@ router.route('/voteOnEvent').post(async (req: Request, res: Response) => {
     res.status(response.http_id).json(response.message);
 })
 
+/**
+ * Removes a user's vote from an event
+  * @param {number} user_id
+  * @param {number} event_id
+ */
 router.route('/removeVoteOnEvent').post(async (req: Request, res: Response) => {
     const user_id: number = req.body.user_id;
     const event_id: number = req.body.event_id;
@@ -85,6 +124,13 @@ router.route('/removeVoteOnEvent').post(async (req: Request, res: Response) => {
     res.status(response.http_id).json(response.message);
 })
 
+/**
+ * Sorts by any input
+ * @param {string} input_name Text to filter name by
+ * @param {string} input_description Text to filter event describtion
+ * @param {string} created_after_date A date to sort by
+ * @param {string} occurring_after_date a date to sort by after
+ */
 router.route('/getEventsByFilter').get(async (req: Request, res: Response) => {
     const input_name: string | any = req.query.input_name == undefined ? "" : req.query.input_name;
     const input_description: string | any = req.query.input_description == undefined ? "" : req.query.input_description;
@@ -95,7 +141,11 @@ router.route('/getEventsByFilter').get(async (req: Request, res: Response) => {
     res.status(response.http_id).json(response.message);
 })
 
-
+/**
+ * Returns events and if user attending
+ *
+   * @param {number} user_id
+ */
 router.route('/getAllEventsInfo').get(async (req: Request, res: Response) => {
     const user_id: number | any = req.query.user_id;
 
@@ -103,6 +153,10 @@ router.route('/getAllEventsInfo').get(async (req: Request, res: Response) => {
     res.status(response.http_id).json(response.message);
 })
 
+/**
+ * Returns a users rating
+   * @param {number} user_id
+ */
 router.route("/getUserRating").get(async (req: Request, res: Response) => {
     const user_id: number | any = req.query.user_id;
     let response = await eventFunctionalities.getUserRating(user_id);
@@ -110,6 +164,11 @@ router.route("/getUserRating").get(async (req: Request, res: Response) => {
     res.status(response.http_id).json(response.message)
 })
 
+/**
+ * If user has deletion permissions, deletes event
+  * @param {number} user_id
+  * @param {number} event_id
+ */
 router.route("/deleteEvent").post(async (req: Request, res: Response) => {
     const user_id: number = req.body.user_id;
     const event_id: number = req.body.event_id;
@@ -118,6 +177,10 @@ router.route("/deleteEvent").post(async (req: Request, res: Response) => {
     res.status(response.http_id).json(response.message)
 })
 
+/**
+ * Returns amt of attending users
+  * @param {number} event_id
+ */
 router.route("/getEventAttendees").get(async (req: Request, res: Response) => {
     const event_id: number | any = req.query.event_id;
     let response = await eventFunctionalities.getAmtOfAttendees(event_id);
