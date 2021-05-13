@@ -6,9 +6,9 @@ const router = require('express').Router();
 const profileFunctionalities = require('../src/profileFunctionalities')
 
 /**
+ * Gets user profile information
  * 
- * 
- * @param {string} username The username
+ * @param {number} user_id The user id
  */
 router.route('/profile').get(async (req: Request, res: Response) => {
     const userId = req.query.userId;
@@ -17,6 +17,11 @@ router.route('/profile').get(async (req: Request, res: Response) => {
     res.status(response.http_id).json(response);
 })
 
+/**
+ *  Gets uswer activity
+ *  * @param {number} userId The user id
+
+ */
 router.route('/activity').get(async (req: Request, res: Response) => {
     const userId = req.query.userId;
 
@@ -24,6 +29,14 @@ router.route('/activity').get(async (req: Request, res: Response) => {
     res.status(response.http_id).json(response)
 })
 
+/**
+ * lets user vote on another user
+ *
+ * @param {number} user_id The user id
+ * @param {number} organizer_id The organizer_id
+ * @param {string} review
+ * @param {number} votes
+ */
 router.route('/voteOnOrganizer').post(async (req: Request, res: Response) => {
     const user_id: number = req.body.user_id;
     const organizer_id: number = req.body.organizer_id;

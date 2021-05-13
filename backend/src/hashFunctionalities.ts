@@ -27,7 +27,10 @@ const hash = (password: string, salt: string) => {
 
 }
 
-
+/**
+ * Creates a 64 byte token of random bytes
+ * @returns
+ */
 const newLoginToken = () => {
     let token: string = crypto.randomBytes(64).toString('hex'); //I conjure a 64 byte token from random bytes
     return token;

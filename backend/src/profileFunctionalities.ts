@@ -7,13 +7,8 @@ const connectionPool: Pool = require('../connectionPool.ts');
 
 
 /**
-
- * 
- * Note: Database checks for uniqueness of username. Returns error if not unique
- * @param username 
- * 
- * @return {http_id = 400 | 200, 
- * message = "Failed to create a user" | "Successfully created a user"} 
+ * Returns user profile or err
+ * @param user_id
  */
 const getProfile = (userId: Number) => {
     const cleanUserId: string = xss(userId);
@@ -54,6 +49,11 @@ const getProfile = (userId: Number) => {
     })
 }
 
+/**
+ * Returns a specified user's activities
+ * @param userId
+ * @returns
+ */
 const getActivity = (userId: Number) => {
     const cleanUserId = xss(userId);
 
@@ -80,6 +80,14 @@ const getActivity = (userId: Number) => {
     })
 }
 
+/**
+ * A user can review another user
+ * @param user_id
+ * @param organizer_id
+ * @param review
+ * @param votes
+ * @returns
+ */
 const voteOnOrganizer = (user_id: number, organizer_id: number, review: string, votes: number) => {
     const clean_user_id: number = xss(user_id);
     const clean_organizer_id: number = xss(organizer_id);
