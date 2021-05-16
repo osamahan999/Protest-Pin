@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/osamahan999.github.io/Protest-Pin/static/css/main.2edea152.chunk.css",
+    "main.js": "/osamahan999.github.io/Protest-Pin/static/js/main.9df57fdc.chunk.js",
+    "main.js.map": "/osamahan999.github.io/Protest-Pin/static/js/main.9df57fdc.chunk.js.map",
+    "runtime-main.js": "/osamahan999.github.io/Protest-Pin/static/js/runtime-main.f2382ad1.js",
+    "runtime-main.js.map": "/osamahan999.github.io/Protest-Pin/static/js/runtime-main.f2382ad1.js.map",
+    "static/css/2.a86e2b3d.chunk.css": "/osamahan999.github.io/Protest-Pin/static/css/2.a86e2b3d.chunk.css",
+    "static/js/2.b1f37ad2.chunk.js": "/osamahan999.github.io/Protest-Pin/static/js/2.b1f37ad2.chunk.js",
+    "static/js/2.b1f37ad2.chunk.js.map": "/osamahan999.github.io/Protest-Pin/static/js/2.b1f37ad2.chunk.js.map",
+    "static/js/3.85b7f8ec.chunk.js": "/osamahan999.github.io/Protest-Pin/static/js/3.85b7f8ec.chunk.js",
+    "static/js/3.85b7f8ec.chunk.js.map": "/osamahan999.github.io/Protest-Pin/static/js/3.85b7f8ec.chunk.js.map",
+    "index.html": "/osamahan999.github.io/Protest-Pin/index.html",
+    "static/css/2.a86e2b3d.chunk.css.map": "/osamahan999.github.io/Protest-Pin/static/css/2.a86e2b3d.chunk.css.map",
+    "static/css/main.2edea152.chunk.css.map": "/osamahan999.github.io/Protest-Pin/static/css/main.2edea152.chunk.css.map",
+    "static/js/2.b1f37ad2.chunk.js.LICENSE.txt": "/osamahan999.github.io/Protest-Pin/static/js/2.b1f37ad2.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.f2382ad1.js",
+    "static/css/2.a86e2b3d.chunk.css",
+    "static/js/2.b1f37ad2.chunk.js",
+    "static/css/main.2edea152.chunk.css",
+    "static/js/main.9df57fdc.chunk.js"
+  ]
+}
