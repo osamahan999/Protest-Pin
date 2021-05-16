@@ -12,12 +12,10 @@ import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import UserRating from './RatingComponents/UserRating'
 import StarRatings from './RatingComponents/OrganizerRating'
-import { set } from 'date-fns/esm';
 
 
 
-
-export default function InfoModal({user_votes,position,isAttending,user_id,event_id,organizer_id, event_name,time_of_event,event_description,setSelected,getEventList}){
+export default function InfoModal({user_votes,position={lat:0,lng:0},isAttending,user_id=-1,event_id,organizer_id=-1, event_name,time_of_event,event_description,setSelected,getEventList}){
     
     const [googleUrl, setGoogleUrl]  = useState("")
     const [currentDateTime, setCurrentDateTime] = useState(new Date())
@@ -157,13 +155,13 @@ export default function InfoModal({user_votes,position,isAttending,user_id,event
             <StarRatings event_rating={organizer_ratings}></StarRatings>
             <h5>Organizer:  {organizer_name}  </h5>
             <br/>
-            <h4 className="description"> {event_description}</h4>
+            <h4 className="description">{event_description}</h4>
             <br/>
-            <h5 className="card-text text-secondary"> {currentDateTime.toString()}</h5>
+            <h5 className="card-text text-secondary">{currentDateTime.toString()}</h5>
             <br/>
             <h5>Number of attendee: {numberOfAttendees}</h5>
             <br/>
-            <a href={googleUrl} target="_blank" rel="noopener noreferrer"> Show me on Google Maps</a>
+            <a href={googleUrl} target="_blank" rel="noopener noreferrer">Show me on Google Maps</a>
             <br/>
             <br/>
             {isPastEvent&&isAttending? (
