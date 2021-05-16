@@ -138,39 +138,39 @@ export default function Profile(props) {
 
 
 
-    async function getActivity() {
-        var axios = require('axios');
-        var activity = [];
-        var i = 0;
+    // async function getActivity() {
+    //     var axios = require('axios');
+    //     var activity = [];
+    //     var i = 0;
 
-        for (i = 0; i < eventIds.length; i++) {
-            axios.get(`${process.env.REACT_APP_SERVER}/event/getSpecificEvent?event_id=${eventIds[i]}`)
-            .then(function (response) {
-            // var data = response.data; 
-            var name = response.data.event.event_name;
-                var date = response.data.event.time_of_event;
+    //     for (i = 0; i < eventIds.length; i++) {
+    //         axios.get(`${process.env.REACT_APP_SERVER}/event/getSpecificEvent?event_id=${eventIds[i]}`)
+    //         .then(function (response) {
+    //         // var data = response.data; 
+    //         var name = response.data.event.event_name;
+    //             var date = response.data.event.time_of_event;
 
 
 
-                activity.push({
-                    eventName: name,
-                    eventDate: date
-                });
+    //             activity.push({
+    //                 eventName: name,
+    //                 eventDate: date
+    //             });
 
             
-                populateActivity(activity);
-                setActivityLoaded(true);
+    //             populateActivity(activity);
+    //             setActivityLoaded(true);
 
                         
 
-            })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        }
+    //         })
+    //             .catch(function (error) {
+    //                 console.log(error);
+    //             });
+    //     }
 
 
-    }
+    // }
 
 
     const showRating = () => {
