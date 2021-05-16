@@ -55,7 +55,7 @@ export class LoginModal extends Component {
        var axios = require('axios');
         var config = {
         method: 'get',
-        url: 'http://localhost:3306/login/loginUser?username=' + (this.state.username).toString() +'&password=' + (this.state.password).toString(),
+            url: `${process.env.REACT_APP_SERVER}/login/loginUser?username=` + (this.state.username).toString() + '&password=' + (this.state.password).toString(),
         headers: { }
         };
 

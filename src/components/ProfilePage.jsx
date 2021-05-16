@@ -57,7 +57,7 @@ export default function Profile(props) {
     var activity = [];
 
 
-    await axios.get(`http://localhost:3306/profile/activity?userId=${localStorage.getItem("userId")}`)
+        await axios.get(`${process.env.REACT_APP_SERVER}/profile/activity?userId=${localStorage.getItem("userId")}`)
     .then( response => {
         var data = response.data.message;
 
@@ -84,7 +84,7 @@ export default function Profile(props) {
     async function setProfile() {
         var axios = require('axios');
 
-        await axios.get(`http://localhost:3306/profile/profile?userId=${localStorage.getItem("userId")}`)
+        await axios.get(`${process.env.REACT_APP_SERVER}/profile/profile?userId=${localStorage.getItem("userId")}`)
         .then((response) => {
             var data_rating = response['data']['result'][0]['avg_rating'];
             var data_bio = response['data']['result'][0]['bio'];
@@ -112,7 +112,7 @@ export default function Profile(props) {
         var i =0;
 
         for (i = 0; i < eventIds.length; i++) {
-            axios.get(`http://localhost:3306/event/getSpecificEvent?event_id=${eventIds[i]}`)
+            axios.get(`${process.env.REACT_APP_SERVER}/event/getSpecificEvent?event_id=${eventIds[i]}`)
             .then(function (response) {
             // var data = response.data; 
             var name = response.data.event.event_name;

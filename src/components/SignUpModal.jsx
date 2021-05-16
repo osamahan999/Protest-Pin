@@ -160,10 +160,9 @@ export class SignUpModal extends React.Component {
 
             data = JSON.stringify(data);
 
-
             var config = {
             method: 'post',
-            url: 'http://localhost:3306/register/userRegister',
+                url: process.env.REACT_APP_SERVER + `/register/userRegister`,
             headers: { 'Content-Type': 'application/json'},
             data : data };
 
