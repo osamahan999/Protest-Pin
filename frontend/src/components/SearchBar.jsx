@@ -10,7 +10,7 @@ import {
   
   
   import "@reach/combobox/styles.css"; 
-  import styled from 'styled-components';
+
  import "./SearchBar.css"
 
 
@@ -65,8 +65,6 @@ export default function Search({ panTo }) {
 
       
       <div className="search">
-
-            
         <Combobox 
         onSelect={async (address) => {
           setValue(address, false)

@@ -19,6 +19,9 @@ router.route('/loginUser').get(async (req: Request, res: Response) => {
     res.status(response.http_id).json(response);
 })
 
+/**
+ * Checks if token in db, if so, returns user data
+ */
 router.route('/loginWithToken').get(async (req: Request, res: Response) => {
     const token = req.query.token;
 

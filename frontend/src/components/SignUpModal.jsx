@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import './ModalContainer.css';
+import '../style/modal.css';
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { Portal } from 'react-overlays';
-import {BrowserRouter as Router, Link} from 'react-router-dom';
+import {BrowserRouter as Router, Link, Redirect} from 'react-router-dom';
 import Route from 'react-router-dom/Route';
 import Map from './Map';
 
@@ -196,7 +196,9 @@ export class SignUpModal extends React.Component {
         return (
             <>
 
-
+{ (localStorage.getItem("loggedIn") == "false") ?
+<>
+            <Map />
             <div className="overlay">
                     <div className="modal" id="modal">
                     {/* <body className="Reg-body"> */}
@@ -290,6 +292,10 @@ export class SignUpModal extends React.Component {
                            {/* </body> */}
                     </div>
                     </div>
+
+                    </> :
+                                <Redirect from="/signup" to="/"/>
+                                }
             </>
 
         )

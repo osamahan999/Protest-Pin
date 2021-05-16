@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './ModalContainer.css';
+import '../style/modal.css';
 import {BrowserRouter as Router, Link} from 'react-router-dom';
 import Route from 'react-router-dom/Route';
 import Map from './Map';
@@ -27,7 +27,6 @@ export class LoginModal extends Component {
     
         }
     }
-
 
 
 
@@ -87,6 +86,7 @@ export class LoginModal extends Component {
 
     render() {
         return (
+            
             <>
 
         {/* <Router>
@@ -102,6 +102,11 @@ export class LoginModal extends Component {
                 }
 
                 }/> */}
+
+{ (localStorage.getItem("loggedIn") == "false") ?
+<>
+
+                <Map />
                 <div className="overlay">
                 <div id="modal" className="modal" >
                     <header id="modal-header">Member Login </header>
@@ -143,8 +148,9 @@ export class LoginModal extends Component {
 
             
             
-       {/* } */}
-
+: 
+<Redirect from="/login" to="/"/> }
+</>
                 
             </>
 

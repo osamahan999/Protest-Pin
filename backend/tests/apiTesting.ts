@@ -4,6 +4,7 @@ const axios = require("axios")
 
 describe("API Routers are working", () => {
     describe("Event router", () => {
+        //Expected Output:       ✓ /createEvent
         it("/createEvent", async () => {
             axios.post(process.env.SERVER + ":" + process.env.PORT + "/event/createEvent", {
 
@@ -13,7 +14,7 @@ describe("API Routers are working", () => {
                 expect(res.http_id).equals(400)
             })
         })
-
+        //Expected Output:       ✓ /joinEvent
         it("/joinEvent", async () => {
             axios.post(process.env.SERVER + ":" + process.env.PORT + "/event/joinEvent", {
 
@@ -23,7 +24,7 @@ describe("API Routers are working", () => {
                 expect(res.http_id).equals(400)
             })
         })
-
+        //Expected Output:       ✓ /getAllEvents
         it("/getAllEvents", async () => {
             axios.get(process.env.SERVER + ":" + process.env.PORT + "/event/getAllEvents", {
 
@@ -33,7 +34,7 @@ describe("API Routers are working", () => {
                 expect(res.http_id).equals(400)
             })
         })
-
+        //Expected Output:       ✓ /getUserEvents
         it("/getUserEvents", async () => {
             axios.get(process.env.SERVER + ":" + process.env.PORT + "/event/getUserEvents", {
 
@@ -46,6 +47,7 @@ describe("API Routers are working", () => {
     })
 
     describe("Login router", () => {
+        //Expected Output:       ✓ /loginUser
         it("/loginUser", async () => {
             axios.get(process.env.SERVER + ":" + process.env.PORT + "/login/loginUser", {
 
@@ -55,7 +57,7 @@ describe("API Routers are working", () => {
                 expect(res.http_id).equals(400)
             })
         })
-
+        //Expected Output:       ✓ /loginWithToken
         it("/loginWithToken", async () => {
             axios.get(process.env.SERVER + ":" + process.env.PORT + "/login/loginWithToken", {
 
@@ -68,6 +70,7 @@ describe("API Routers are working", () => {
     })
 
     describe("Registration router", () => {
+        //Expected Output:       ✓ /userRegister
         it("/userRegister", async () => {
             axios.post(process.env.SERVER + ":" + process.env.PORT + "/register/userRegister", {
 
