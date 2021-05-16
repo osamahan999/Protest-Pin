@@ -1,15 +1,23 @@
-import './ModalContainer.css';
+import '../style/modal.css';
 import {BrowserRouter as Router, Link} from 'react-router-dom';
-import Route from 'react-router-dom/Route';
+import { Route, Redirect } from 'react-router-dom/Route';
 import Map from './Map'
 
 
 export default function WelcomeModal(props){
 
         return (
+
+
             <>
+
+
+{ (localStorage.getItem("loggedIn") == "false") ?
+    <>
+        <Map />
             {/* {console.log(localStorage.getItem("loggedIn"))} */}
             {/* { !localStorage.getItem("loggedIn") ?  */}
+            {/* < Redirect from="/welcome" to="/"/> */}
             <div className='overlay'>
 
             <div id='modal' className='modal'>
@@ -20,8 +28,14 @@ export default function WelcomeModal(props){
                 <Link to="/signup"><button>Sign Up</button></Link>
             </div>
             </div>
+        </>
+            
     
-        {/* // : null} */}
+
+
+            : <Redirect from="/welcome" to="/" /> }
+
+    
            
         </>
         );
