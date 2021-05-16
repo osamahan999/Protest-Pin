@@ -5,7 +5,7 @@ const axios = require("axios")
 describe("API Routers are working", () => {
     describe("Event router", () => {
         it("/createEvent", async () => {
-            axios.post("http://localhost:3306/event/createEvent", {
+            axios.post(process.env.SERVER + ":" + process.env.PORT + "/event/createEvent", {
 
             }).then((res: any) => {
                 expect(res.http_id).equals(200)
@@ -15,7 +15,7 @@ describe("API Routers are working", () => {
         })
 
         it("/joinEvent", async () => {
-            axios.post("http://localhost:3306/event/joinEvent", {
+            axios.post(process.env.SERVER + ":" + process.env.PORT + "/event/joinEvent", {
 
             }).then((res: any) => {
                 expect(res.http_id).equals(200)
@@ -25,7 +25,7 @@ describe("API Routers are working", () => {
         })
 
         it("/getAllEvents", async () => {
-            axios.get("http://localhost:3306/event/getAllEvents", {
+            axios.get(process.env.SERVER + ":" + process.env.PORT + "/event/getAllEvents", {
 
             }).then((res: any) => {
                 expect(res.http_id).equals(200)
@@ -35,7 +35,7 @@ describe("API Routers are working", () => {
         })
 
         it("/getUserEvents", async () => {
-            axios.get("http://localhost:3306/event/getUserEvents", {
+            axios.get(process.env.SERVER + ":" + process.env.PORT + "/event/getUserEvents", {
 
             }).then((res: any) => {
                 expect(res.http_id).equals(200)
@@ -47,7 +47,7 @@ describe("API Routers are working", () => {
 
     describe("Login router", () => {
         it("/loginUser", async () => {
-            axios.get("http://localhost:3306/login/loginUser", {
+            axios.get(process.env.SERVER + ":" + process.env.PORT + "/login/loginUser", {
 
             }).then((res: any) => {
                 expect(res.http_id).equals(200)
@@ -57,7 +57,7 @@ describe("API Routers are working", () => {
         })
 
         it("/loginWithToken", async () => {
-            axios.get("http://localhost:3306/login/loginWithToken", {
+            axios.get(process.env.SERVER + ":" + process.env.PORT + "/login/loginWithToken", {
 
             }).then((res: any) => {
                 expect(res.http_id).equals(200)
@@ -69,7 +69,7 @@ describe("API Routers are working", () => {
 
     describe("Registration router", () => {
         it("/userRegister", async () => {
-            axios.post("http://localhost:3306/register/userRegister", {
+            axios.post(process.env.SERVER + ":" + process.env.PORT + "/register/userRegister", {
 
             }).then((res: any) => {
                 expect(res.http_id).equals(200)

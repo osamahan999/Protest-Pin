@@ -45,7 +45,7 @@ function App() {
     const axios = require('axios');
 
     if (token != null) {
-        axios.get(`http://localhost:3306/login/loginWithToken?token=${token}`).
+      axios.get(process.env.REACT_APP_SERVER + `/login/loginWithToken?token=${token}`).
         then((response) => {
             // localStorage.setItem("token", token);
             // setLoggedIn(true);
