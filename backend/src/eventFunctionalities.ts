@@ -5,6 +5,7 @@ const connectionPool: Pool = require('../connectionPool.ts');
 
 
 /**
+ * Creates an event
  * 
  * @param user_id ID of user creating the event
  * @param event_name Name of the event 
@@ -52,6 +53,10 @@ const createEvent =
         })
     }
 
+/**
+ * Gets all the events
+ * @returns All event data
+ */
 const getEvents = () => {
     const query: string = `SELECT * FROM ${process.env.DATABASE_SCHEMA}.event `
 
@@ -71,6 +76,12 @@ const getEvents = () => {
     })
 }
 
+/**
+ * Adds a user to user_attending_event for a event
+ * @param user_id The user joining
+ * @param event_id The event they want to join
+ * @returns
+ */
 const joinEvent = (user_id: number, event_id: number) => {
     const clean_user_id: number = xss(user_id);
     const clean_event_id: number = xss(event_id);
@@ -95,6 +106,12 @@ const joinEvent = (user_id: number, event_id: number) => {
     })
 }
 
+/**
+ * Removes user from event
+ * @param user_id The user leaving
+ * @param event_id Event to leave
+ * @returns
+ */
 const leaveEvent = (user_id: number, event_id: number) => {
     const clean_user_id: number = xss(user_id)
     const clean_event_id: number = xss(event_id);
@@ -109,7 +126,11 @@ const leaveEvent = (user_id: number, event_id: number) => {
         })
     })).then((success) => { return success }).catch((err) => { return err })
 }
-
+/**
+ * Gets events info and if user rated the event
+ * @param user_id
+ * @returns
+ */
 const getUserEvents = (user_id: number) => {
     const clean_user_id: number = xss(user_id);
     const query: string = `SELECT A.event_id, A.organizer_id, A.event_name, A.event_description, A.creation_date, 
@@ -124,8 +145,6 @@ const getUserEvents = (user_id: number) => {
             query,
             inputs,
             (err, result, fields) => {
-                console.log(err)
-
                 if (err) reject({ http_id: 400, message: "Failed to get events" })
                 else resolve({ http_id: 200, message: result })
             }
@@ -137,6 +156,11 @@ const getUserEvents = (user_id: number) => {
     })
 }
 
+/**
+ * Returns a users username and rating
+ * @param user_id
+ * @returns
+ */
 const getUserRating = (user_id: number) => {
     const clean_user_id: number = xss(user_id)
     const query: string = `SELECT (select username from ${process.env.DATABASE_SCHEMA}.user where user_id=?) as 'User',
@@ -148,7 +172,6 @@ const getUserRating = (user_id: number) => {
             query,
             inputs,
             (err, result, fields) => {
-                console.log(err)
                 if (err) reject({ http_id: 400, message: "Failed to get user rating" })
                 else resolve({ http_id: 200, message: result })
             }
@@ -160,7 +183,11 @@ const getUserRating = (user_id: number) => {
     })
 }
 
-
+/**
+ * Gets rating of event
+ * @param event_id
+ * @returns
+ */
 const getEventRating = (event_id: number) => {
     const clean_event_id: number = xss(event_id)
 
@@ -182,6 +209,11 @@ const getEventRating = (event_id: number) => {
     })
 }
 
+/**
+ * Get event data and organizer data
+ * @param event_id
+ * @returns
+ */
 const getSpecificEvent = (event_id: number) => {
     const clean_event_id = xss(event_id);
 
@@ -202,6 +234,13 @@ const getSpecificEvent = (event_id: number) => {
     })
 }
 
+/**
+ * A user can vote on an event
+ * @param user_id
+ * @param event_id
+ * @param votes
+ * @returns
+ */
 const voteOnEvent = (user_id: number, event_id: number, votes: number) => {
     const clean_user_id: number = xss(user_id)
     const clean_event_id: number = xss(event_id);
@@ -223,6 +262,11 @@ const voteOnEvent = (user_id: number, event_id: number, votes: number) => {
     })
 }
 
+/**
+ * Returns amt of ppl attendding the event
+ * @param event_id
+ * @returns
+ */
 const getAmtOfAttendees = (event_id: number) => {
     const clean_event_id: number = xss(event_id)
 
@@ -237,6 +281,12 @@ const getAmtOfAttendees = (event_id: number) => {
     }))
 }
 
+/**
+ * Removes a users vote if they voted
+ * @param user_id
+ * @param event_id
+ * @returns
+ */
 const removeVoteOnEvent = (user_id: number, event_id: number) => {
     const clean_user_id: number = xss(user_id)
     const clean_event_id: number = xss(event_id);
@@ -257,6 +307,14 @@ const removeVoteOnEvent = (user_id: number, event_id: number) => {
     })
 }
 
+/**
+ * Filters events by wildcard
+ * @param input_name
+ * @param input_description
+ * @param created_after_date
+ * @param occurring_after_date
+ * @returns
+ */
 const getEventsByFilter = (input_name: string, input_description: string, created_after_date: string, occurring_after_date: string) => {
     const clean_input_name: string = "%" + xss(input_name) + "%";
     const clean_input_description: string = "%" + xss(input_description) + "%";
@@ -273,16 +331,19 @@ const getEventsByFilter = (input_name: string, input_description: string, create
             else resolve({ http_id: 200, message: { "events": result } })
         })
     })).then((success) => {
-        console.log(success)
 
         return success;
     }).catch((err) => {
-        console.log(err)
 
         return err;
     })
 }
 
+/**
+ * Returns events info and if user attendding
+ * @param user_id
+ * @returns
+ */
 const getAllEventsInfo = (user_id: number) => {
     const clean_user_id = xss(user_id);
 
@@ -299,6 +360,12 @@ const getAllEventsInfo = (user_id: number) => {
         .catch((err) => { return err })
 }
 
+/**
+ * Deletes event if user has the permissions
+ * @param user_id
+ * @param event_id
+ * @returns
+ */
 const deleteEvent = (user_id: number, event_id: number) => {
     const clean_user_id = xss(user_id);
     const clean_event_id = xss(event_id);

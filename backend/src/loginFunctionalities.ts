@@ -71,6 +71,11 @@ const loginUser = (username: string, password: string) => {
     })
 }
 
+/**
+ * Takes in a login token, checks if it exists;; if so, returns  user information
+ * @param token
+ * @returns
+ */
 const loginWithToken = (token: string) => {
     const cleanToken = xss(token);
 
@@ -101,6 +106,11 @@ const loginWithToken = (token: string) => {
     })
 }
 
+/**
+ * Takes in username makes login token stored in database and returns token
+ * @param username
+ * @returns
+ */
 const createUserToken = (username: string) => {
     const cleanUsername: string = xss(username);
     const token = hash.newLoginToken();
