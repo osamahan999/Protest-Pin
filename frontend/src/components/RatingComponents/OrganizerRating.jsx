@@ -4,7 +4,7 @@ import Rating from 'material-ui-rating'
 import StarRatingComponent from 'react-star-rating-controlled-component';
 
 
-export default function OrganizerRating({event_rating}) {
+export default function OrganizerRating({event_rating=0}) {
   //const [ratings, setRatings] = useState(0)
   //const [ratings, setRatings] = useState(0)
   
